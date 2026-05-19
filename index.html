@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#060b18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="روتيني">
+<title>روتيني اليومي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060b18;--s1:#0d1526;--s2:#131e35;--s3:#1a2845;
+  --gold:#c9a84c;--gl:#e8c97a;--gdim:rgba(201,168,76,.13);
+  --teal:#2dd4bf;--blue:#3b82f6;--rose:#f43f5e;
+  --purple:#a78bfa;--green:#22c55e;--orange:#f97316;--indigo:#6366f1;
+  --text:#e2e8f0;--muted:#4e6080;--bdr:rgba(255,255,255,.07);
+  --sh:0 4px 24px rgba(0,0,0,.3);
+}
+[data-theme="light"]{
+  --bg:#f0f4f8;--s1:#fff;--s2:#f1f5f9;--s3:#e2e8f0;
+  --text:#1e293b;--muted:#64748b;--bdr:rgba(0,0,0,.09);
+  --gdim:rgba(201,168,76,.1);--sh:0 4px 24px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.orb1{width:600px;height:600px;top:-200px;right:-150px;background:rgba(201,168,76,.05);}
+.orb2{width:500px;height:500px;bottom:-150px;left:-100px;background:rgba(45,212,191,.04);}
+[data-theme="light"] .orb{opacity:.3;}
+#bar{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gl),var(--gold),transparent);background-size:200%;animation:barA 1.4s linear infinite;z-index:9999;transition:opacity .5s;}
+@keyframes barA{0%{background-position:200%}100%{background-position:-200%}}
+.wrap{position:relative;z-index:1;max-width:940px;margin:0 auto;padding:1rem 1.2rem 5rem;}
+/* TOP BAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0 1.5rem;}
+.topbar-title{font-family:'Cairo',sans-serif;font-size:1.1rem;font-weight:900;color:var(--gold);}
+.topbar-actions{display:flex;gap:.4rem;}
+.icon-btn{background:var(--s1);border:1px solid var(--bdr);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s;color:var(--text);}
+.icon-btn:hover{border-color:rgba(201,168,76,.4);}
+/* SETTINGS */
+.sp{background:var(--s1);border:1px solid rgba(201,168,76,.25);border-radius:14px;padding:1.2rem;margin-bottom:1.5rem;display:none;animation:pIn .3s ease;}
+.sp.show{display:block;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.85rem;}
+.sinp,.ssel{background:var(--s2);border:1px solid var(--bdr);border-radius:9px;padding:.6rem .85rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.85rem;outline:none;width:100%;transition:border-color .2s;}
+.sinp:focus,.ssel:focus{border-color:rgba(201,168,76,.4);}
+.sinp::placeholder{color:var(--muted);}
+.sbtn{background:var(--gold);color:#000;border:none;border-radius:9px;padding:.6rem 1.2rem;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;width:100%;}
+.sbtn:hover{background:var(--gl);}
+.sloc{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;border-radius:9px;padding:.6rem 1rem;font-family:'Tajawal',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;width:100%;transition:all .2s;}
+.snote{font-size:.7rem;color:var(--muted);margin-top:.45rem;}
+/* HERO */
+.hero{text-align:center;padding:1rem 1rem 1.5rem;margin-bottom:1.5rem;}
+.lpill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#4ade80;font-size:.68rem;font-weight:700;padding:.22rem .75rem;border-radius:999px;margin-bottom:.85rem;letter-spacing:.06em;text-transform:uppercase;}
+.ldot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:ldA 1.4s infinite;}
+@keyframes ldA{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-family:'Cairo',sans-serif;font-size:clamp(1.8rem,6vw,2.8rem);font-weight:900;color:var(--text);letter-spacing:-.02em;margin-bottom:.4rem;}
+.hero h1 em{font-style:normal;color:var(--gold);}
+#hDate{color:var(--muted);font-size:.87rem;}#hDate strong{color:var(--text);}
+.loc-tag{display:none;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted);margin-top:.35rem;justify-content:center;}
+.loc-tag span{color:var(--gold);font-weight:600;}
+/* CHIPS */
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.chip{flex:1;min-width:120px;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-radius:10px;border:1px solid;font-size:.76rem;font-weight:600;transition:transform .2s;}
+.chip:hover{transform:translateY(-1px);}
+.c-fast{background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.3);color:#a5b4fc;}
+.c-norm{background:rgba(100,116,139,.08);border-color:rgba(100,116,139,.2);color:#94a3b8;}
+.c-moon{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);color:var(--gl);}
+.c-hij{background:rgba(45,212,191,.07);border-color:rgba(45,212,191,.22);color:#5eead4;}
+/* PRAYER BAR */
+.pbar{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;margin-bottom:1.8rem;}
+.pc{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:.85rem .4rem;text-align:center;transition:all .3s;box-shadow:var(--sh);}
+.pc.nxt{border-color:var(--gold);background:rgba(201,168,76,.09);}
+.pc.nxt .pn{color:var(--gold);}.pc.done{opacity:.35;}
+.pi{font-size:1rem;margin-bottom:.28rem;}
+.pn{font-size:.63rem;color:var(--muted);margin-bottom:.28rem;font-weight:700;}
+.pt{font-size:.86rem;font-weight:800;font-family:'Cairo',sans-serif;color:var(--text);}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.8rem;}
+.sc{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1rem .75rem;text-align:center;position:relative;overflow:hidden;box-shadow:var(--sh);}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ac,var(--gold));}
+.sc.s2{--ac:var(--teal)}.sc.s3{--ac:var(--green)}.sc.s4{--ac:var(--indigo)}
+.sv{font-size:1.45rem;font-weight:900;color:var(--ac,var(--gold));font-family:'Cairo',sans-serif;line-height:1;margin-bottom:.25rem;}
+.sl{font-size:.6rem;color:var(--muted);}
+/* TABS */
+.tabs{display:flex;gap:.3rem;background:var(--s1);padding:.35rem;border-radius:12px;border:1px solid var(--bdr);margin-bottom:1.8rem;overflow-x:auto;box-shadow:var(--sh);}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:fit-content;padding:.55rem .5rem;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:'Tajawal',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.tab.on{background:var(--gold);color:#000;}
+.panel{display:none;}.panel.on{display:block;animation:pIn .3s ease;}
+@keyframes pIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* SECTION */
+.sec{margin-bottom:1.6rem;}
+.shd{font-size:.63rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem;}
+.shd::after{content:'';flex:1;height:1px;background:var(--gdim);}
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;gap:.4rem;}
+.ev{display:grid;grid-template-columns:70px 1fr auto;gap:.65rem;align-items:center;padding:.78rem .9rem;background:var(--s1);border:1px solid var(--bdr);border-radius:10px;transition:all .2s;position:relative;overflow:hidden;box-shadow:var(--sh);}
+.ev::before{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--ac,var(--gold));opacity:.65;}
+[dir="ltr"] .ev::before{right:auto;left:0;}
+.ev:hover{border-color:rgba(201,168,76,.22);transform:translateX(-2px);}
+[dir="ltr"] .ev:hover{transform:translateX(2px);}
+.ev.prayer{--ac:#c9a84c;background:rgba(201,168,76,.04);}
+.ev.quran{--ac:#22c55e;background:rgba(34,197,94,.03);}
+.ev.work{--ac:#3b82f6;background:rgba(59,130,246,.03);}
+.ev.health{--ac:#2dd4bf;background:rgba(45,212,191,.03);}
+.ev.family{--ac:#a78bfa;background:rgba(167,139,250,.03);}
+.ev.sleep{--ac:#f43f5e;background:rgba(244,63,94,.03);}
+.ev.meal{--ac:#f97316;background:rgba(249,115,22,.03);}
+.ev.fast{--ac:#6366f1;background:rgba(99,102,241,.03);}
+.et{font-size:.73rem;font-weight:800;color:var(--ac,var(--gold));text-align:center;font-family:'Cairo',sans-serif;line-height:1.3;}
+.en{font-size:.86rem;font-weight:600;color:var(--text);margin-bottom:.1rem;}
+.enote{font-size:.7rem;color:var(--muted);font-weight:300;}
+.tbtn{background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:7px;padding:.3rem .5rem;color:var(--muted);font-size:.63rem;font-family:'Cairo',sans-serif;cursor:pointer;transition:all .2s;white-space:nowrap;font-weight:600;}
+.tbtn:hover{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.4);color:var(--gold);}
+/* TIMER */
+.timer-box{background:var(--s1);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:2rem 1.5rem;text-align:center;margin-bottom:1.8rem;box-shadow:var(--sh);}
+.ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 1.2rem;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.rbg{stroke:var(--s2);}.rfg{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .4s;}
+.rinn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.rtime{font-family:'Cairo',sans-serif;font-size:1.7rem;font-weight:900;color:var(--text);line-height:1;}
+.rsub{font-size:.58rem;color:var(--muted);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem;}
+.tname{font-size:.82rem;color:var(--muted);margin-bottom:1.2rem;min-height:1.2em;}
+.presets{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:.9rem;}
+.pbtn{padding:.36rem .82rem;border-radius:8px;border:1px solid var(--bdr);background:var(--s2);color:var(--muted);font-size:.73rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif;}
+.pbtn:hover,.pbtn.sel{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.4);color:var(--gold);}
+.crow{display:flex;gap:.5rem;justify-content:center;align-items:center;margin-bottom:1rem;}
+.cinp{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:.45rem .75rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.82rem;width:150px;outline:none;text-align:center;}
+.cinp:focus{border-color:rgba(201,168,76,.4);}
+.ctrls{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;}
+.cbtn{padding:.6rem 1.4rem;border-radius:10px;border:none;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.cbtn:hover{transform:translateY(-1px);}
+.c-start{background:var(--gold);color:#000;}.c-start:hover{background:var(--gl);}
+.c-pause{background:var(--s2);color:var(--text);border:1px solid var(--bdr);}
+.c-reset{background:transparent;color:var(--muted);border:1px solid var(--bdr);}
+.c-stop{background:rgba(244,63,94,.13);color:#f87171;border:1px solid rgba(244,63,94,.3);}
+.hi{display:flex;align-items:center;justify-content:space-between;padding:.5rem .8rem;background:var(--s2);border-radius:8px;margin-bottom:.35rem;font-size:.75rem;}
+.hin{color:var(--text);font-weight:600;}.hid{color:var(--gold);font-weight:700;font-family:'Cairo',sans-serif;}
+.ftotal{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1.1rem;text-align:center;margin-top:1rem;box-shadow:var(--sh);}
+/* TASKS */
+.add-row{display:flex;gap:.45rem;margin-bottom:.9rem;flex-wrap:wrap;}
+.tinp{flex:1;min-width:160px;background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:.65rem 1rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.87rem;outline:none;transition:border-color .2s;box-shadow:var(--sh);}
+.tinp:focus{border-color:rgba(201,168,76,.4);}
+.tinp::placeholder{color:var(--muted);}
+.tsel{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:.65rem .7rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.82rem;outline:none;cursor:pointer;}
+.tadd{background:var(--gold);color:#000;border:none;border-radius:10px;padding:.65rem 1.1rem;font-family:'Tajawal',sans-serif;font-size:.87rem;font-weight:700;cursor:pointer;}
+.flts{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.flt{padding:.28rem .8rem;border-radius:999px;border:1px solid var(--bdr);background:transparent;color:var(--muted);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif;}
+.flt.on{background:var(--gdim);border-color:rgba(201,168,76,.35);color:var(--gold);}
+.tsum{display:flex;align-items:center;gap:.5rem;padding:.7rem .9rem;background:var(--s1);border:1px solid var(--bdr);border-radius:10px;margin-bottom:.9rem;font-size:.76rem;box-shadow:var(--sh);}
+.ts-d{color:var(--green);font-weight:700;}.ts-t{color:var(--muted);}
+.ts-bar{flex:1;background:var(--s2);border-radius:999px;height:5px;overflow:hidden;}
+.ts-fill{height:100%;background:var(--green);border-radius:999px;transition:width .4s;}
+.ts-pct{color:var(--muted);font-size:.7rem;}
+.task-list{display:flex;flex-direction:column;gap:.4rem;}
+.ti{display:flex;align-items:center;gap:.7rem;padding:.8rem .9rem;background:var(--s1);border:1px solid var(--bdr);border-radius:10px;transition:all .25s;animation:sIn .3s ease;box-shadow:var(--sh);}
+@keyframes sIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.ti.done{opacity:.45;}.ti.done .ti-txt{text-decoration:line-through;color:var(--muted);}
+.chk{width:20px;height:20px;border-radius:6px;border:2px solid var(--bdr);background:transparent;cursor:pointer;transition:all .22s;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#000;font-weight:900;}
+.chk:hover{border-color:var(--gold);}.chk.c{background:var(--green);border-color:var(--green);}
+.ti-body{flex:1;min-width:0;}
+.ti-txt{font-size:.86rem;font-weight:500;color:var(--text);margin-bottom:.1rem;}
+.ti-meta{font-size:.67rem;color:var(--muted);display:flex;gap:.45rem;align-items:center;}
+.ti-cat{padding:.08rem .4rem;border-radius:4px;font-weight:700;font-size:.6rem;}
+.cat-prayer{background:rgba(201,168,76,.14);color:var(--gold);}
+.cat-work{background:rgba(59,130,246,.14);color:#60a5fa;}
+.cat-quran{background:rgba(34,197,94,.14);color:#4ade80;}
+.cat-health{background:rgba(45,212,241,.14);color:var(--teal);}
+.cat-other{background:rgba(100,116,139,.14);color:#94a3b8;}
+.ti-acts{display:flex;gap:.3rem;}
+.tia{width:28px;height:28px;border-radius:7px;border:1px solid var(--bdr);background:transparent;color:var(--muted);font-size:.73rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.tia:hover{background:var(--s2);color:var(--text);}
+.tia.del:hover{background:rgba(244,63,94,.14);border-color:rgba(244,63,94,.3);color:#f87171;}
+/* HABITS */
+.hc{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;margin-bottom:.6rem;box-shadow:var(--sh);overflow:hidden;transition:border-color .25s;}
+.hc.done{border-color:rgba(34,197,94,.35);}
+.hc-main{display:flex;align-items:center;gap:.75rem;padding:.9rem 1rem;cursor:pointer;user-select:none;}
+.hc-ico{font-size:1.35rem;flex-shrink:0;}
+.hc-body{flex:1;}
+.hc-name{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.1rem;}
+.hc-str{font-size:.67rem;color:var(--muted);}
+.hc.done .hc-str{color:#4ade80;}
+.hc-chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#000;font-weight:900;flex-shrink:0;transition:all .25s;}
+.hc.done .hc-chk{background:var(--green);border-color:var(--green);}
+.yt-toggle{background:transparent;border:1px solid rgba(244,63,94,.25);border-radius:6px;color:var(--rose);font-size:.65rem;cursor:pointer;padding:.18rem .45rem;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .2s;flex-shrink:0;}
+.yt-toggle:hover{background:rgba(244,63,94,.12);}
+.yt-links{padding:0 1rem .85rem;display:none;}
+.yt-links.open{display:block;}
+.yt-link{display:flex;align-items:center;gap:.55rem;padding:.5rem .65rem;background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.18);border-radius:8px;text-decoration:none;color:var(--text);font-size:.75rem;font-weight:500;margin-bottom:.35rem;transition:all .2s;}
+.yt-link:hover{background:rgba(244,63,94,.14);border-color:rgba(244,63,94,.35);}
+.yt-ico{color:var(--rose);font-size:1rem;flex-shrink:0;}
+/* QURAN COUNTER */
+.qcount{background:var(--s1);border:1px solid rgba(34,197,94,.25);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1.2rem;box-shadow:var(--sh);}
+.qcount-val{font-family:'Cairo',sans-serif;font-size:3rem;font-weight:900;color:#4ade80;line-height:1;margin-bottom:.5rem;}
+.qcount-lbl{font-size:.75rem;color:#86efac;margin-bottom:1.2rem;}
+.qcount-btns{display:flex;gap:.6rem;justify-content:center;margin-bottom:1rem;}
+.qbtn{width:52px;height:48px;border-radius:12px;border:none;font-size:1.3rem;font-weight:900;cursor:pointer;transition:all .2s;}
+.qbtn.plus{background:var(--green);color:#000;}.qbtn.plus:hover{background:#4ade80;transform:scale(1.05);}
+.qbtn.minus{background:rgba(244,63,94,.15);color:#f87171;border:1px solid rgba(244,63,94,.3);}
+/* ═══ AI CHATBOT — MODE TOGGLE & API KEY ═══ */
+.ai-mode-toggle{display:flex;gap:.5rem;margin-bottom:1rem;padding:.3rem;background:var(--s2);border-radius:10px;border:1px solid var(--bdr);}
+.ai-mode-btn{flex:1;padding:.48rem;border:none;border-radius:7px;background:transparent;color:var(--muted);font-family:'Tajawal',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.ai-mode-btn.on{background:var(--gold);color:#000;}
+.api-key-box{background:var(--s1);border:1px solid rgba(99,102,241,.3);border-radius:12px;padding:.9rem;margin-bottom:1rem;}
+.api-key-title{font-size:.72rem;font-weight:700;color:#a5b4fc;margin-bottom:.5rem;}
+.api-key-row{display:flex;gap:.45rem;}
+.api-key-inp{flex:1;background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:.5rem .8rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.8rem;outline:none;}
+.api-key-inp:focus{border-color:rgba(99,102,241,.5);}
+.api-key-inp::placeholder{color:var(--muted);}
+.api-key-save{background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:.5rem .9rem;font-family:'Tajawal',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+.api-key-note{font-size:.67rem;color:var(--muted);margin-top:.4rem;}
+.api-key-note a{color:#a5b4fc;}
+/* CHAT UI */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 320px);min-height:420px;}
+.quick-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.qk-btn{padding:.4rem .85rem;border-radius:20px;border:1px solid var(--bdr);background:var(--s1);color:var(--text);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Tajawal',sans-serif;box-shadow:var(--sh);}
+.qk-btn:hover{border-color:rgba(201,168,76,.4);background:var(--gdim);color:var(--gold);}
+.chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:.75rem;padding:.5rem 0;margin-bottom:1rem;}
+.chat-msgs::-webkit-scrollbar{width:4px;}.chat-msgs::-webkit-scrollbar-track{background:transparent;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px;}
+.msg{display:flex;gap:.65rem;align-items:flex-start;animation:sIn .3s ease;}
+.msg.user{flex-direction:row-reverse;}
+.msg-ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.msg-ico.ai{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);}
+.msg-ico.user{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);}
+.msg-bubble{max-width:75%;padding:.75rem 1rem;border-radius:14px;font-size:.85rem;line-height:1.6;}
+.msg.ai .msg-bubble{background:var(--s1);border:1px solid var(--bdr);color:var(--text);border-radius:4px 14px 14px 14px;box-shadow:var(--sh);}
+.msg.user .msg-bubble{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:var(--text);border-radius:14px 4px 14px 14px;}
+[dir="ltr"] .msg.ai .msg-bubble{border-radius:14px 4px 14px 14px;}
+[dir="ltr"] .msg.user .msg-bubble{border-radius:4px 14px 14px 14px;}
+.msg-bubble strong{color:var(--gold);}
+.typing-ind{display:flex;gap:.3rem;padding:.5rem .75rem;}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:typAnim 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:.2s;}
+.typing-dot:nth-child(3){animation-delay:.4s;}
+@keyframes typAnim{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
+.chat-input-row{display:flex;gap:.5rem;}
+.chat-inp{flex:1;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:.7rem 1rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.88rem;outline:none;resize:none;transition:border-color .2s;box-shadow:var(--sh);}
+.chat-inp:focus{border-color:rgba(201,168,76,.4);}
+.chat-inp::placeholder{color:var(--muted);}
+.chat-send{background:var(--gold);color:#000;border:none;border-radius:12px;padding:.7rem 1.2rem;font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.chat-send:hover{background:var(--gl);}
+.chat-send:disabled{opacity:.5;cursor:not-allowed;}
+.meal-chip{display:inline-block;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);border-radius:6px;padding:.2rem .6rem;color:var(--orange);font-size:.7rem;font-weight:700;margin:.2rem .2rem 0 0;}
+.meal-hist{margin-top:.75rem;}
+.meal-hist-title{font-size:.68rem;color:var(--muted);font-weight:700;margin-bottom:.4rem;letter-spacing:.05em;text-transform:uppercase;}
+/* EDIT MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;}
+.modal-ov.show{display:flex;}
+.modal{background:var(--s1);border:1px solid rgba(201,168,76,.25);border-radius:16px;padding:1.4rem;width:100%;max-width:520px;margin:auto;}
+.modal h3{font-family:'Cairo',sans-serif;font-weight:700;font-size:.98rem;color:var(--text);margin-bottom:1.1rem;display:flex;justify-content:space-between;align-items:center;}
+.mclose{background:transparent;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;}
+.elist{display:flex;flex-direction:column;gap:.5rem;max-height:55vh;overflow-y:auto;margin-bottom:1rem;}
+.ei{background:var(--s2);border:1px solid var(--bdr);border-radius:10px;padding:.75rem;}
+.ei-row{display:flex;gap:.4rem;align-items:center;margin-bottom:.35rem;flex-wrap:wrap;}
+.ei-row:last-child{margin-bottom:0;}
+.ei-lbl{font-size:.65rem;color:var(--muted);font-weight:600;min-width:40px;}
+.ei-inp{flex:1;min-width:80px;background:var(--s1);border:1px solid var(--bdr);border-radius:6px;padding:.32rem .6rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.8rem;outline:none;}
+.ei-inp:focus{border-color:rgba(201,168,76,.4);}
+.ei-sel{background:var(--s1);border:1px solid var(--bdr);border-radius:6px;padding:.32rem .5rem;color:var(--text);font-family:'Tajawal',sans-serif;font-size:.75rem;outline:none;cursor:pointer;}
+.ei-del{background:rgba(244,63,94,.13);border:1px solid rgba(244,63,94,.3);border-radius:6px;padding:.32rem .6rem;color:#f87171;font-size:.75rem;cursor:pointer;font-family:'Tajawal',sans-serif;}
+.add-ev-btn{background:rgba(34,197,94,.1);border:1px dashed rgba(34,197,94,.35);border-radius:10px;padding:.65rem;color:#4ade80;font-size:.85rem;font-weight:600;cursor:pointer;width:100%;font-family:'Tajawal',sans-serif;transition:all .2s;margin-bottom:.75rem;}
+.save-btn{background:var(--gold);color:#000;border:none;border-radius:10px;padding:.65rem 1.5rem;font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;}
+/* WEEK / PROGRESS / ALERT / RULES */
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:.38rem;margin-bottom:1.5rem;}
+.dc{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:.65rem .3rem;text-align:center;box-shadow:var(--sh);}
+.dc.today{border-color:var(--gold);background:rgba(201,168,76,.07);}
+.dn{font-size:.58rem;color:var(--muted);margin-bottom:.35rem;font-weight:700;}
+.dc.today .dn{color:var(--gold);}
+.dtag{display:block;font-size:.52rem;padding:.08rem .22rem;border-radius:4px;font-weight:700;margin-bottom:.18rem;}
+.dt-f{background:rgba(99,102,241,.18);color:#a5b4fc;}
+.dt-g{background:rgba(45,212,191,.18);color:#5eead4;}
+.dt-q{background:rgba(34,197,94,.18);color:#86efac;}
+.dt-j{background:rgba(201,168,76,.2);color:var(--gold);}
+.prog{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:1.35rem;margin-bottom:1.2rem;box-shadow:var(--sh);}
+.prog-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;}
+.prog-t{font-weight:700;font-size:.9rem;color:var(--text);}
+.prog-c{font-size:.78rem;color:var(--gold);font-weight:700;}
+.prog-bg{background:var(--s2);border-radius:999px;height:7px;overflow:hidden;margin-bottom:.45rem;}
+.prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gl));}
+.prog-note{font-size:.68rem;color:var(--muted);}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem;}
+.q-stat{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18);border-radius:10px;padding:.85rem;text-align:center;}
+.q-v{font-size:1.35rem;font-weight:900;color:#4ade80;font-family:'Cairo',sans-serif;margin-bottom:.15rem;}
+.q-l{font-size:.67rem;color:#86efac;}
+.alert{padding:.85rem 1.1rem;border-radius:10px;border:1px solid;margin-bottom:1rem;font-size:.82rem;line-height:1.7;}
+.a-g{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.25);color:var(--gl);}
+.a-gr{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.25);color:#86efac;}
+.a-i{background:rgba(99,102,241,.07);border-color:rgba(99,102,241,.25);color:#a5b4fc;}
+.alert strong{font-weight:700;}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.2rem;}
+.rc{background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:.95rem;display:flex;align-items:flex-start;gap:.6rem;box-shadow:var(--sh);}
+.rico{font-size:1.25rem;flex-shrink:0;}
+.rt{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.16rem;}
+.rd{font-size:.68rem;color:var(--muted);line-height:1.5;}
+/* SKELETON / TOAST / EMPTY */
+.sk{background:linear-gradient(90deg,var(--s1) 25%,var(--s2) 50%,var(--s1) 75%);background-size:200%;animation:skA 1.5s infinite;border:none!important;}
+@keyframes skA{0%{background-position:200%}100%{background-position:-200%}}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);background:var(--text);color:var(--bg);padding:.7rem 1.4rem;border-radius:12px;font-size:.83rem;font-weight:700;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;color:var(--muted);font-size:.85rem;padding:2.5rem 0;}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .rgrid{grid-template-columns:1fr;}
+  .sg{grid-template-columns:1fr;}
+  .ev{grid-template-columns:58px 1fr auto;gap:.4rem;}
+  .pbar{gap:.25rem;}.wk{gap:.2rem;}
+  .chat-wrap{height:calc(100vh - 360px);min-height:360px;}
+}
+</style>
+</head>
+<body data-theme="dark">
+<div class="orb orb1"></div><div class="orb orb2"></div>
+<div id="bar"></div>
+<div class="wrap">
+ 
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-title" id="appTitle">روتيني ✦</div>
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="toggleLang()" id="langBtn">ع</button>
+    <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
+  </div>
+</div>
+ 
+<!-- SETTINGS -->
+<div class="sp" id="settingsPanel">
+  <div style="font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:.85rem;" id="stTitle">⚙️ إعدادات أوقات الصلاة</div>
+  <div class="sg">
+    <div><div style="font-size:.68rem;color:var(--muted);margin-bottom:.3rem;" id="lbl-city">المدينة</div><input class="sinp" id="cityInp" placeholder="Cairo, London, Riyadh..."></div>
+    <div><div style="font-size:.68rem;color:var(--muted);margin-bottom:.3rem;" id="lbl-country">الدولة</div><input class="sinp" id="countryInp" placeholder="Egypt, UK, Saudi Arabia..."></div>
+    <div><div style="font-size:.68rem;color:var(--muted);margin-bottom:.3rem;" id="lbl-method">طريقة الحساب</div>
+    <select class="ssel" id="methodSel">
+      <option value="5">🇪🇬 مصر — Egyptian Authority</option>
+      <option value="4">🇸🇦 السعودية / الإمارات — Umm Al-Qura</option>
+      <option value="9">🇰🇼 الكويت — Kuwait</option>
+      <option value="10">🇶🇦 قطر — Qatar</option>
+      <option value="2">🇺🇸 أمريكا / كندا — ISNA</option>
+      <option value="3">🌍 رابطة العالم الإسلامي — MWL</option>
+      <option value="1">🇵🇰 باكستان / أفغانستان — Karachi</option>
+      <option value="13">🇹🇷 تركيا — Diyanet</option>
+      <option value="7">🇮🇷 إيران — Tehran</option>
+      <option value="12">🇫🇷 أوروبا — UOIF France</option>
+      <option value="15">🌐 عالمي — Moonsighting</option>
+    </select></div>
+    <div><div style="font-size:.68rem;color:var(--muted);margin-bottom:.3rem;" id="lbl-loc">أو موقعي التلقائي</div><button class="sloc" id="locBtn" onclick="useLocation()">📍 تحديد موقعي</button></div>
+  </div>
+  <button class="sbtn" onclick="saveSettings()" id="saveStBtn">💾 حفظ وتحديث</button>
+  <div class="snote" id="stNote">* اتركها فارغة لاستخدام القاهرة</div>
+</div>
+ 
+<!-- HERO -->
+<div class="hero">
+  <div class="lpill"><div class="ldot"></div><span id="liveLabel">مباشر — Aladhan API</span></div>
+  <h1 id="heroH1">روتيني <em id="heroEm">المثالي</em></h1>
+  <div id="hDate">جاري تحميل التاريخ...</div>
+  <div class="loc-tag" id="locTag">📍 <span id="locName"></span></div>
+</div>
+ 
+<!-- CHIPS -->
+<div class="chips" id="chips">
+  <div class="chip c-norm sk" style="height:46px;border:none;"></div>
+  <div class="chip c-norm sk" style="height:46px;border:none;"></div>
+  <div class="chip c-norm sk" style="height:46px;border:none;"></div>
+</div>
+ 
+<!-- PRAYER BAR -->
+<div class="pbar" id="pbar">
+  <div class="pc sk" style="height:88px;"></div>
+  <div class="pc sk" style="height:88px;"></div>
+  <div class="pc sk" style="height:88px;"></div>
+  <div class="pc sk" style="height:88px;"></div>
+  <div class="pc sk" style="height:88px;"></div>
+</div>
+ 
+<!-- STATS -->
+<div class="stats">
+  <div class="sc"><div class="sv" id="qPagesStat">٢٦٧</div><div class="sl" id="s1l">صفحة قرآن</div></div>
+  <div class="sc s2"><div class="sv" id="streakStat">٠</div><div class="sl" id="s2l">🔥 عادات</div></div>
+  <div class="sc s3"><div class="sv" id="doneStat">٠</div><div class="sl" id="s3l">مهام منجزة</div></div>
+  <div class="sc s4"><div class="sv" id="focusStat">٠</div><div class="sl" id="s4l">دقائق تركيز</div></div>
+</div>
+ 
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('normal',this)" id="tb-normal">📅 يوم عادي</button>
+  <button class="tab" onclick="switchTab('fast',this)" id="tb-fast">⭐ صيام</button>
+  <button class="tab" onclick="switchTab('timer',this)" id="tb-timer">⏱ التركيز</button>
+  <button class="tab" onclick="switchTab('tasks',this)" id="tb-tasks">✅ مهامي</button>
+  <button class="tab" onclick="switchTab('habits',this)" id="tb-habits">🔥 عاداتي</button>
+  <button class="tab" onclick="switchTab('ai',this)" id="tb-ai">🤖 مساعد AI</button>
+  <button class="tab" onclick="switchTab('week',this)" id="tb-week">📆 الأسبوع</button>
+  <button class="tab" onclick="switchTab('rules',this)" id="tb-rules">📋 قواعد</button>
+</div>
+ 
+<!-- NORMAL DAY -->
+<div id="tab-normal" class="panel on">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:.75rem;">
+    <button class="tbtn" onclick="openEditModal()" style="font-size:.75rem;padding:.4rem .9rem;" id="editSchedBtn">✏️ تعديل الجدول</button>
+  </div>
+  <div id="normal-schedule"></div>
+</div>
+ 
+<!-- FASTING -->
+<div id="tab-fast" class="panel">
+  <div class="alert a-i" id="fastAlert">جاري تحميل...</div>
+  <div id="fast-schedule"></div>
+</div>
+ 
+<!-- TIMER -->
+<div id="tab-timer" class="panel">
+  <div class="timer-box">
+    <div style="font-size:.65rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:1.2rem;" id="timerLbl">⏱ مؤقت التركيز</div>
+    <div class="ring-wrap">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="rbg" cx="80" cy="80" r="68" fill="none" stroke-width="6"/>
+        <circle id="rfg" class="rfg" cx="80" cy="80" r="68" fill="none" stroke-width="6" stroke-dasharray="427" stroke-dashoffset="0"/>
+      </svg>
+      <div class="rinn"><div class="rtime" id="rTime">25:00</div><div class="rsub" id="rSub">جاهز</div></div>
+    </div>
+    <div class="tname" id="tName">اختر مهمة أو ابدأ مباشرة</div>
+    <div class="presets">
+      <button class="pbtn sel" onclick="setP(25,this)">٢٥ د</button>
+      <button class="pbtn" onclick="setP(45,this)">٤٥ د</button>
+      <button class="pbtn" onclick="setP(60,this)">٦٠ د</button>
+      <button class="pbtn" onclick="setP(90,this)">٩٠ د</button>
+      <button class="pbtn" onclick="setP(120,this)">١٢٠ د</button>
+    </div>
+    <div class="crow">
+      <input class="cinp" id="cMins" type="number" placeholder="دقائق مخصصة" min="1" max="240">
+      <button class="pbtn" onclick="setCustom()" id="setCustomBtn">تعيين</button>
+    </div>
+    <div class="ctrls" id="ctrls"></div>
+  </div>
+  <div class="sec"><div class="shd" id="histLbl">سجل اليوم</div><div id="hist"><div class="empty" id="noSessLbl">لا توجد جلسات بعد</div></div></div>
+  <div class="ftotal"><div class="sv" id="focusTotal">٠ د</div><div class="sl" id="focusTotLbl">إجمالي دقائق التركيز اليوم</div></div>
+</div>
+ 
+<!-- TASKS -->
+<div id="tab-tasks" class="panel">
+  <div class="add-row">
+    <input class="tinp" id="tInput" placeholder="أضف مهمة..." onkeydown="if(event.key==='Enter')addTask()">
+    <select class="tsel" id="tCat"><option value="work">💻</option><option value="quran">📖</option><option value="prayer">🕌</option><option value="health">🏋️</option><option value="other">📌</option></select>
+    <button class="tadd" onclick="addTask()">+</button>
+  </div>
+  <div class="flts">
+    <button class="flt on" onclick="flt('all',this)" id="fltAll">الكل</button>
+    <button class="flt" onclick="flt('active',this)" id="fltActive">المعلقة</button>
+    <button class="flt" onclick="flt('done',this)" id="fltDone">المنجزة</button>
+    <button class="flt" onclick="flt('work',this)">💻</button>
+    <button class="flt" onclick="flt('quran',this)">📖</button>
+    <button class="flt" onclick="flt('prayer',this)">🕌</button>
+    <button class="flt" onclick="flt('health',this)">🏋️</button>
+  </div>
+  <div class="tsum" id="tsum"><span class="ts-d">٠</span><span class="ts-t"> / ٠</span><div class="ts-bar"><div class="ts-fill" style="width:0%"></div></div><span class="ts-pct">٠%</span></div>
+  <div class="task-list" id="taskList"><div class="empty" id="noTasksLbl">🎯 أضف أول مهمة</div></div>
+</div>
+ 
+<!-- HABITS -->
+<div id="tab-habits" class="panel">
+  <div class="sec">
+    <div class="shd" id="qCounterLbl">عداد حفظ القرآن</div>
+    <div class="qcount">
+      <div class="qcount-val" id="qRemain">٢٦٧</div>
+      <div class="qcount-lbl" id="qLbl">صفحة متبقية من ٦٠٤</div>
+      <div class="qcount-btns">
+        <button class="qbtn minus" onclick="qChange(-1)">−</button>
+        <button class="qbtn plus" onclick="qChange(1)" id="qPlusBtn">+ صفحة</button>
+      </div>
+      <div style="background:var(--s2);border-radius:999px;height:8px;overflow:hidden;margin-bottom:.4rem;"><div id="qpFill" style="height:100%;border-radius:999px;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .5s;width:55.8%"></div></div>
+      <div style="font-size:.7rem;color:var(--muted);" id="qpNote">٥٥.٨٪ مكتمل · ٢٦٧ يوم للإتمام</div>
+    </div>
+  </div>
+  <div class="sec"><div class="shd" id="habitsLbl">عاداتي اليومية</div><div id="habitsGrid"></div></div>
+</div>
+ 
+<!-- ═══ AI CHATBOT TAB ═══ -->
+<div id="tab-ai" class="panel">
+ 
+  <!-- MODE TOGGLE -->
+  <div class="ai-mode-toggle">
+    <button class="ai-mode-btn on" onclick="setAIMode('local',this)" id="mLocal">⚡ محلي — بدون إنترنت</button>
+    <button class="ai-mode-btn" onclick="setAIMode('groq',this)" id="mGroq">🦙 Groq AI — مجاني</button>
+    <button class="ai-mode-btn" onclick="setAIMode('claude',this)" id="mClaude">🤖 Claude AI</button>
+  </div>
+ 
+  <!-- GROQ API KEY (shown when groq mode) -->
+  <div class="api-key-box" id="groqKeyBox" style="display:none;">
+    <div class="api-key-title">🔑 مفتاح Groq المجاني — Free API Key</div>
+    <div class="api-key-row">
+      <input class="api-key-inp" id="groqKeyInp" type="password" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
+      <button class="api-key-save" onclick="saveGroqKey()">حفظ</button>
+    </div>
+    <div class="api-key-note">
+      احصل على مفتاح مجاني من <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+      — مجاني ١٤٤٠٠ طلب/يوم · يستخدم Llama 3.1 70B
+    </div>
+  </div>
+ 
+  <!-- CLAUDE API KEY (shown when claude mode) -->
+  <div class="api-key-box" id="claudeKeyBox" style="display:none;border-color:rgba(201,168,76,.3);">
+    <div class="api-key-title" style="color:var(--gl);">🔑 مفتاح Anthropic Claude API</div>
+    <div class="api-key-row">
+      <input class="api-key-inp" id="claudeKeyInp" type="password" placeholder="sk-ant-xxxxxxxxxxxxxxxxxxxx">
+      <button class="api-key-save" style="background:var(--gold);color:#000;" onclick="saveClaudeKey()">حفظ</button>
+    </div>
+    <div class="api-key-note">
+      احصل على مفتاح من <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>
+      — يستخدم claude-sonnet-4-20250514
+    </div>
+  </div>
+ 
+  <div class="quick-btns" id="quickBtns"></div>
+  <div class="chat-wrap">
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-input-row">
+      <textarea class="chat-inp" id="chatInp" rows="1" placeholder="اسألني أي شيء..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+      <button class="chat-send" id="chatSend" onclick="sendMsg()">إرسال</button>
+    </div>
+  </div>
+  <div class="meal-hist" id="mealHistDiv" style="margin-top:1rem;"></div>
+</div>
+ 
+<!-- WEEK -->
+<div id="tab-week" class="panel">
+  <div class="alert a-g" id="wkAlert">جاري تحميل...</div>
+  <div class="wk" id="wk">
+    <div class="dc sk" style="height:90px;"></div><div class="dc sk" style="height:90px;"></div>
+    <div class="dc sk" style="height:90px;"></div><div class="dc sk" style="height:90px;"></div>
+    <div class="dc sk" style="height:90px;"></div><div class="dc sk" style="height:90px;"></div>
+    <div class="dc sk" style="height:90px;"></div>
+  </div>
+  <div class="prog">
+    <div class="prog-hd"><div class="prog-t" id="qProgLbl">📖 تتبع حفظ القرآن</div><div class="prog-c" id="progCount">٢٦٧ / ٦٠٤</div></div>
+    <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:55.8%"></div></div>
+    <div class="prog-note" id="progNote">٥٥.٨٪ مكتمل</div>
+    <div class="q-grid">
+      <div class="q-stat"><div class="q-v" id="qDays">٢٦٧</div><div class="q-l" id="qDaysL">يوم للختم</div></div>
+      <div class="q-stat"><div class="q-v" id="qMons">~٩</div><div class="q-l" id="qMonsL">أشهر متبقية</div></div>
+    </div>
+  </div>
+  <div class="sec"><div class="shd" id="fastSumLbl">الصيام السنوي</div>
+    <div class="tl">
+      <div class="ev fast"><div class="et">١٠٤</div><div><div class="en" id="fMonLbl">الإثنين والخميس</div><div class="enote" id="fMonNote">٥٢ × ٢ يوم</div></div></div>
+      <div class="ev fast"><div class="et">٣٦</div><div><div class="en" id="fWhiteLbl">الأيام البيض (١٣-١٤-١٥)</div><div class="enote" id="fWhiteNote">١٢ × ٣ أيام</div></div></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- RULES -->
+<div id="tab-rules" class="panel">
+  <div class="alert a-g"><strong id="r321T">قاعدة ٣-٢-١ قبل النوم:</strong><br><span id="r321D">🚫 لا أكل ٣ ساعات · لا شرب كثير ٢ ساعة · لا شاشات ساعة</span></div>
+  <div class="rgrid" id="rulesGrid"></div>
+  <div class="alert a-gr" id="conAlert">💡 أول ٦٦ يوم هي الأصعب — بعدها يصبح الروتين تلقائياً.</div>
+</div>
+ 
+</div><!-- /wrap -->
+ 
+<!-- EDIT MODAL -->
+<div class="modal-ov" id="editModal">
+  <div class="modal">
+    <h3 id="editMTitle">✏️ تعديل الجدول <button class="mclose" onclick="closeEditModal()">✕</button></h3>
+    <div class="elist" id="editList"></div>
+    <button class="add-ev-btn" onclick="addNewEvent()" id="addEvBtn">+ إضافة حدث</button>
+    <button class="save-btn" onclick="saveSchedule()" id="saveSchedBtn">💾 حفظ</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+ 
+<script>
+// ═══ STORAGE ═══
+function sv(k,v){try{localStorage.setItem('rt3_'+k,JSON.stringify(v));}catch(e){}}
+function ld(k,d){try{var x=localStorage.getItem('rt3_'+k);return x!==null?JSON.parse(x):d;}catch(e){return d;}}
+ 
+// ═══ STATE ═══
+var lang=ld('lang','ar'), theme=ld('theme','dark');
+var city=ld('city','Cairo'), country=ld('country','Egypt'), method=ld('method','5');
+var qPages=ld('qPages',267), qTotal=604;
+var tasks=ld('tasks',[]), habitDone=ld('habitDone',{}), taskFlt='all';
+var totFocus=ld('focusToday',0), sessions=ld('sessions',[]);
+var tSecs=25*60, tTotal=25*60, tRun=false, tInt=null, tLbl='';
+var apiTimes={}, chatHistory=[], mealHistory=ld('mealHistory',[]);
+var _audioCtx=null, isSending=false;
+ 
+// ═══ AI CHATBOT STATE ═══
+var aiMode=ld('aiMode','local');
+var groqKey=ld('groqKey','');
+var claudeKey=ld('claudeKey','');
+var groqHistory=[];
+ 
+// ═══ LOCAL CHATBOT RESPONSES ═══
+var LOCAL_RESPONSES={
+  ar:{
+    greeting:['السلام عليكم ورحمة الله وبركاته 🌙\n\nأهلاً بك في مساعدك الذكي!\n\nيمكنني مساعدتك في الوجبات والإنتاجية والقرآن والتحفيز 💪','وعليكم السلام ورحمة الله 😊\n\nسعيد بوجودك! اسألني عن وجباتك أو روتينك.'],
+    breakfast:['السلام عليكم ورحمة الله 🍳\n\n**أهمية الإفطار الصحي:**\nوجبة بروتينية صباحاً تعزز التركيز وتمنع الإفراط في الغداء.\n\n💡 مقترح: بيض مع خضار + خبز أسمر + شاي أخضر'],
+    lunch:['السلام عليكم ورحمة الله 🍽️\n\n**وجبة الغداء المثالية بعد الجيم:**\nبروتين عالٍ + كربوهيدرات معقدة + خضار\n\n💡 النافذة الذهبية: خلال ٤٥ دقيقة من انتهاء التمرين 💪'],
+    suhoor:['السلام عليكم ورحمة الله 🌙\n\n**نصائح السحور:**\n✅ بروتين عالٍ (يبقيك ممتلئاً أطول)\n✅ شوفان بالتمر (كربوهيدرات بطيئة)\n✅ ١-١.٥ لتر ماء قبل الأذان\n❌ تجنب الأكل المالح'],
+    productivity:['السلام عليكم ورحمة الله 🎯\n\n**تقنية بومودورو الإسلامية:**\n• ٢٥ دقيقة عمل بتركيز كامل 📵\n• ٥ دقائق راحة (قم وتحرك واذكر الله)\n• بعد ٤ جلسات: ٢٠ دقيقة راحة\n\n**الوقت الذهبي:** الفجر إلى الظهر = ٦ ساعات لا مثيل لها','السلام عليكم ورحمة الله 💡\n\n**قاعدة ٣ مهام يومياً:**\nكل ليلة اكتب ٣ مهام أساسية فقط لغدٍ.\nتبدأ بالأصعب صباحاً (Eat the Frog).'],
+    quran:['السلام عليكم ورحمة الله 📖\n\n**تقنية الحفظ ٣-٢-١:**\n1. اقرأ الصفحة ٣ مرات بصوت عالٍ\n2. أغمض عينيك وكررها من الذاكرة\n3. افتح وتحقق ثم كررها مرتين\n\n🌙 أفضل وقت: بعد الفجر مباشرة'],
+    motivation:['السلام عليكم ورحمة الله 🔥\n\n{إن مع العسر يسرا}\n\nكل يوم صعب تتجاوزه يضيف إليك قوة خفية.\nروتينك استثمار — كل يوم يضيف على ما قبله 💪','السلام عليكم ورحمة الله ⭐\n\nقال النبي ﷺ: "أحب الأعمال إلى الله أدومها وإن قل"\n\nلا تنتظر الحماسة — ابدأ وستأتي.\nالانضباط يبني النتائج. 🚀'],
+    sleep:['السلام عليكم ورحمة الله 😴\n\n**قاعدة ٣-٢-١ للنوم الجيد:**\n• لا أكل ٣ ساعات قبل النوم\n• لا شرب كثير ٢ ساعة قبل النوم\n• لا شاشات ساعة قبل النوم\n\n💡 للاستيقاظ للفجر: انوِ قبل النوم، ضع الهاتف بعيداً'],
+    exercise:['السلام عليكم ورحمة الله 🏋️\n\n**توزيع الجيم على الأسبوع:**\n✅ الأحد-الثلاثاء-الأربعاء-السبت: تمرين\n❌ الإثنين والخميس: صيام = راحة كاملة\n\n💪 بعد الجيم مباشرة: بروتين + كربوهيدرات خلال ٤٥ دقيقة'],
+    fasting:['السلام عليكم ورحمة الله 🌙\n\n**فوائد صيام الإثنين والخميس:**\n• يحسن حساسية الإنسولين\n• يحرق الدهون المخزنة\n• يمنح الجهاز الهضمي راحة\n• يحسن التركيز والإنتاجية\n• سنة نبوية مباركة 🤲'],
+    thanks:['السلام عليكم ورحمة الله 💛\n\nوفقك الله وبارك في يومك وصحتك!\n\nتذكر: الاستمرارية أهم من الكمال 🤲'],
+    default:['السلام عليكم ورحمة الله 🌙\n\nيمكنني مساعدتك في:\n🍳 الوجبات — إفطار أو غداء أو سحور\n🎯 الإنتاجية — نصائح التركيز\n📖 القرآن — تقنيات الحفظ\n🔥 التحفيز — لإكمال روتينك\n😴 النوم — الاستيقاظ للفجر\n🏋️ الرياضة — مع الصيام\n\nماذا تريد؟']
+  },
+  en:{
+    greeting:['Peace and blessings! 🌙\n\nWelcome to your AI assistant!\n\nI can help with meals, productivity, Quran, and motivation 💪'],
+    breakfast:['Peace be upon you! 🍳\n\n**Why breakfast matters:**\nA protein-rich morning meal boosts focus and prevents overeating later.\n\n💡 Suggestion: Eggs + veggies + whole wheat bread + green tea'],
+    lunch:['Peace be upon you! 🍽️\n\n**Perfect post-gym lunch:**\nHigh protein + complex carbs + vegetables\n\n💡 Golden window: within 45 minutes of finishing your workout 💪'],
+    suhoor:['Peace be upon you! 🌙\n\n**Suhoor Tips:**\n✅ High protein (keeps you full longer)\n✅ Oatmeal with dates (slow carbs)\n✅ 1-1.5L water before Fajr\n❌ Avoid salty food'],
+    productivity:['Peace be upon you! 🎯\n\n**Islamic Pomodoro:**\n• 25 min deep work 📵\n• 5 min break (move + dhikr)\n• After 4 sessions: 20 min break\n\n**Golden hours:** Fajr to Dhuhr = unmatched 6 hours'],
+    quran:['Peace be upon you! 📖\n\n**3-2-1 Memorization:**\n1. Read page 3 times aloud\n2. Close eyes and recall\n3. Open and verify, repeat twice\n\n🌙 Best time: right after Fajr'],
+    motivation:['Peace be upon you! 🔥\n\n"Verily, with hardship comes ease." (94:6)\n\nEvery hard day builds hidden strength.\nYour routine is compound interest 💪'],
+    sleep:['Peace be upon you! 😴\n\n**3-2-1 Sleep Rule:**\n• No food 3 hours before sleep\n• No excess drinks 2 hours before\n• No screens 1 hour before\n\n💡 For Fajr: set intention, put phone away'],
+    exercise:['Peace be upon you! 🏋️\n\n**Weekly schedule:**\n✅ Sun, Tue, Wed, Sat: Workout\n❌ Mon & Thu: Fasting = Full rest\n\n💪 Post-gym: Protein + carbs within 45 min'],
+    fasting:['Peace be upon you! 🌙\n\n**Benefits of Mon & Thu Fasting:**\n• Improves insulin sensitivity\n• Burns stored fat\n• Rests digestive system\n• Improves focus & productivity\n• Blessed Prophetic Sunnah 🤲'],
+    thanks:['Peace be upon you! 💛\n\nMay Allah bless your day and health!\n\nRemember: Consistency beats perfection 🤲'],
+    default:['Peace be upon you! 🌙\n\nI can help with:\n🍳 Meals — breakfast, lunch, or suhoor\n🎯 Productivity — focus tips\n📖 Quran — memorization techniques\n🔥 Motivation — to keep your routine\n😴 Sleep — waking for Fajr\n🏋️ Exercise — around fasting\n\nWhat do you need?']
+  }
+};
+ 
+function detectIntent(msg){
+  var m=msg.toLowerCase();
+  var check=function(words){return words.some(function(w){return m.includes(w);});};
+  if(check(['سلام','مرحب','أهل','صباح','مساء','hello','hi','hey','greet']))return 'greeting';
+  if(check(['إفطار','فطور','صبح','breakfast','morning']))return 'breakfast';
+  if(check(['غداء','ظهر','lunch','midday']))return 'lunch';
+  if(check(['سحور','سحر','قبل الفجر','suhoor','pre-dawn']))return 'suhoor';
+  if(check(['إنتاج','تركيز','deep work','مذاكر','دراسة','productivity','focus','study']))return 'productivity';
+  if(check(['قرآن','حفظ','تلاوة','quran','memoriz','recit']))return 'quran';
+  if(check(['حفزن','تحفيز','ملل','تعب','motivat','tired','lazy','inspire']))return 'motivation';
+  if(check(['نوم','أنام','نعسان','فجر','sleep','wake']))return 'sleep';
+  if(check(['رياضة','جيم','تمرين','gym','workout','exercise']))return 'exercise';
+  if(check(['صيام','صوم','إثنين','خميس','fast','fasting']))return 'fasting';
+  if(check(['شكر','جزاك','بارك','thanks','thank']))return 'thanks';
+  return 'default';
+}
+function getLocalReply(msg){
+  var intent=detectIntent(msg);
+  var pool=LOCAL_RESPONSES[lang][intent]||LOCAL_RESPONSES[lang]['default'];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+ 
+// ═══ GROQ API ═══
+async function callGroq(userMsg){
+  if(!groqKey){
+    return lang==='ar'
+      ?'السلام عليكم ورحمة الله 🔑\n\nلم يتم إدخال مفتاح Groq بعد.\nأدخله في الحقل أعلاه أو تبديل إلى الوضع المحلي.'
+      :'Peace be upon you! 🔑\n\nGroq API key not entered.\nAdd it above or switch to Local mode.';
+  }
+  var systemPrompt=lang==='ar'
+    ?'أنت مساعد شخصي إسلامي لتطبيق روتيني المثالي. المستخدم يتبع روتيناً يشمل: قيام الليل، صلاة الفجر، حفظ القرآن يومياً، عمل عميق من الفجر للظهر، قيلولة، رياضة، صيام الإثنين والخميس. ابدأ دائماً بـ "السلام عليكم ورحمة الله". أجب باختصار وعملية وبأسلوب إسلامي دافئ.'
+    :'You are a personal Islamic assistant for "My Ideal Routine" app. The user follows an Islamic routine: Night prayer, Fajr, daily Quran memorization, deep work from Fajr to Dhuhr, nap, exercise, fasting Mon/Thu. Be concise, practical, warm with Islamic tone.';
+  groqHistory.push({role:'user',content:userMsg});
+  var response=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+groqKey},
+    body:JSON.stringify({
+      model:'llama-3.1-8b-instant',
+      max_tokens:600,
+      temperature:0.7,
+      system:systemPrompt,
+      messages:groqHistory.slice(-8)
+    })
+  });
+  var data=await response.json();
+  if(data.error){groqHistory.pop();return(lang==='ar'?'⚠️ خطأ: ':'⚠️ Error: ')+data.error.message;}
+  var reply=data.choices[0].message.content;
+  groqHistory.push({role:'assistant',content:reply});
+  return reply;
+}
+ 
+// ═══ CLAUDE API (Anthropic) ═══
+var CLAUDE_SYSTEM=function(){
+  var recent=getRecentMeals();
+  var mealStr=recent.length?recent.map(function(m){return m.type+': '+m.name;}).join(' | '):'none yet';
+  return 'You are a personal AI assistant for a Muslim productivity app called "My Ideal Routine" (روتيني المثالي).\n\nThe user follows this daily schedule:\n- 3:00 AM: Wake up for Tahajjud (11 Rakaas)\n- Fajr: Prayer + Morning Adhkar\n- After Fajr: Quran memorization (1 page daily, '+qPages+' pages remaining out of 604)\n- Morning to Dhuhr: Deep Work / Study (no phone)\n- After Dhuhr: Nap (20-30 min)\n- Afternoon: Exercise (3-4 days/week, NO exercise on fasting days)\n- Asr: Evening Adhkar + Family time\n- After Maghrib: Plan next day + Quran review\n- 9:30 PM: Sleep\n\nFasting days: Mondays, Thursdays, and White Days (13th, 14th, 15th Hijri month)\n\nMEAL PLANNING RULES:\n- Meals used THIS WEEK (do NOT suggest these again): '+mealStr+'\n- Suggest PRACTICAL, REAL meals with 2-3 main ingredients\n- If user confirms a meal, note it: [MEAL:meal_name:breakfast|lunch|suhoor]\n\nRESPONSE STYLE:\n- Concise and practical (3-4 sentences max unless asked for detail)\n- Warm, motivating, Islamic tone\n- Respond in the SAME LANGUAGE the user writes in (Arabic or English)\n- For meals: bold the meal name, list 2-3 ingredients, explain the benefit\n- If you suggest a meal end with: [MEAL:meal_name:breakfast|lunch] for tracking';
+};
+async function callClaude(userMsg){
+  if(!claudeKey){
+    return lang==='ar'
+      ?'السلام عليكم ورحمة الله 🔑\n\nلم يتم إدخال مفتاح Claude API بعد.\nأدخله في الحقل أعلاه.'
+      :'Peace be upon you! 🔑\n\nClaude API key not entered.\nAdd it above.';
+  }
+  chatHistory.push({role:'user',content:userMsg});
+  var response=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':claudeKey,'anthropic-version':'2023-06-01'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      system:CLAUDE_SYSTEM(),
+      messages:chatHistory.slice(-10)
+    })
+  });
+  var data=await response.json();
+  if(data.error){chatHistory.pop();return(lang==='ar'?'⚠️ خطأ: ':'⚠️ Error: ')+data.error.message;}
+  var reply=data.content&&data.content[0]?data.content[0].text:(lang==='ar'?'⚠️ لم أتلق ردًا.':'⚠️ No response received.');
+  chatHistory.push({role:'assistant',content:reply});
+  return reply;
+}
+ 
+// ═══ AI MODE UI ═══
+function setAIMode(m,btn){
+  aiMode=m; sv('aiMode',m);
+  document.querySelectorAll('.ai-mode-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('groqKeyBox').style.display=(m==='groq')?'block':'none';
+  document.getElementById('claudeKeyBox').style.display=(m==='claude')?'block':'none';
+}
+function saveGroqKey(){
+  groqKey=document.getElementById('groqKeyInp').value.trim();
+  sv('groqKey',groqKey);
+  appendMsg('ai',lang==='ar'?'السلام عليكم ورحمة الله 🔑\n\nتم حفظ مفتاح Groq! يمكنك الآن الدردشة باستخدام Llama 3.1 مجاناً. 🦙':'Peace be upon you! 🔑\n\nGroq key saved! You can now chat with Llama 3.1 for free. 🦙');
+}
+function saveClaudeKey(){
+  claudeKey=document.getElementById('claudeKeyInp').value.trim();
+  sv('claudeKey',claudeKey);
+  appendMsg('ai',lang==='ar'?'السلام عليكم ورحمة الله 🤖\n\nتم حفظ مفتاح Claude! يمكنك الآن الدردشة باستخدام Claude Sonnet. 🌟':'Peace be upon you! 🤖\n\nClaude key saved! You can now chat with Claude Sonnet. 🌟');
+}
+ 
+// ═══ SCHEDULE DATA ═══
+var schedNormal=ld('schedNormal',[
+  {id:'n1',time:'٣:٠٠ ص',time_en:'3:00 AM',icon:'🌙',name:'استيقاظ — قيام الليل',name_en:'Wake Up — Night Prayer',note:'١١ ركعة (٨ قيام + ٣ وتر)',note_en:'11 Rakaas',type:'sleep',timer:60},
+  {id:'n2',time:'أذان الفجر',time_en:'Fajr Time',icon:'🕌',name:'صلاة الفجر',name_en:'Fajr Prayer',note:'في أول وقتها',note_en:'At earliest time',type:'prayer',timer:10,apiKey:'Fajr'},
+  {id:'n3',time:'بعد الفجر',time_en:'After Fajr',icon:'📿',name:'أذكار الصباح',name_en:'Morning Adhkar',note:'خذ وقتك',note_en:'Take your time',type:'quran',timer:20},
+  {id:'n4',time:'+٢٥ د',time_en:'+25 min',icon:'📖',name:'حفظ القرآن — صفحة',name_en:'Quran Memorization',note:'أقوى وقت للحفظ',note_en:'Best memorization time',type:'quran',timer:30},
+  {id:'n5',time:'بعد الشروق',time_en:'After Sunrise',icon:'☀️',name:'صلاة الضحى',name_en:'Duha Prayer',note:'ركعتان على الأقل',note_en:'At least 2 Rakaas',type:'prayer',timer:5,apiKey:'Sunrise',apiPlus:15},
+  {id:'n6',time:'بعد الضحى',time_en:'After Duha',icon:'🎯',name:'Deep Work — مذاكرة',name_en:'Deep Work — Study',note:'لا هاتف · تركيز كامل',note_en:'No phone · Full focus',type:'work',timer:90},
+  {id:'n7',time:'٧:٣٠ ص',time_en:'7:30 AM',icon:'🥗',name:'الإفطار',name_en:'Breakfast',note:'بروتين + كربوهيدرات',note_en:'Protein + Carbs',type:'meal',timer:20},
+  {id:'n8',time:'أذان الظهر',time_en:'Dhuhr Time',icon:'🕌',name:'صلاة الظهر',name_en:'Dhuhr Prayer',note:'توقف عن العمل',note_en:'Stop working',type:'prayer',timer:10,apiKey:'Dhuhr'},
+  {id:'n9',time:'بعد الظهر',time_en:'After Dhuhr',icon:'😴',name:'قيلولة',name_en:'Nap',note:'٢٠-٣٠ دقيقة',note_en:'20-30 min only',type:'sleep',timer:25},
+  {id:'n10',time:'١:٤٠ م',time_en:'1:40 PM',icon:'🏋️',name:'جيم أو رياضة',name_en:'Gym / Exercise',note:'٣-٤ أيام أسبوعياً',note_en:'3-4 days/week',type:'health',timer:60},
+  {id:'n11',time:'٣:٢٠ م',time_en:'3:20 PM',icon:'🍽️',name:'الغداء بعد الجيم',name_en:'Lunch After Gym',note:'بروتين + خضار + كربوهيدرات',note_en:'Protein + Veggies + Carbs',type:'meal',timer:25},
+  {id:'n12',time:'أذان العصر',time_en:'Asr Time',icon:'🕌',name:'صلاة العصر',name_en:'Asr Prayer',note:'في أول وقتها',note_en:'At earliest time',type:'prayer',timer:10,apiKey:'Asr'},
+  {id:'n13',time:'بعد العصر',time_en:'After Asr',icon:'📿',name:'أذكار المساء',name_en:'Evening Adhkar',note:'خذ وقتك',note_en:'Take your time',type:'quran',timer:20},
+  {id:'n14',time:'٥:١٥ م',time_en:'5:15 PM',icon:'👨‍👩‍👦',name:'وقت العائلة',name_en:'Family Time',note:'حضور حقيقي — لا هاتف',note_en:'Real presence — no phone',type:'family',timer:60},
+  {id:'n15',time:'٦:٠٠ م',time_en:'6:00 PM',icon:'📚',name:'قراءة كتاب',name_en:'Book Reading',note:'١٥-٣٠ دقيقة',note_en:'15-30 minutes',type:'quran',timer:20},
+  {id:'n16',time:'٦:٣٠ م',time_en:'6:30 PM',icon:'🫐',name:'سناك — آخر أكل',name_en:'Snack — Last Meal',note:'٣ ساعات قبل النوم',note_en:'3 hours before sleep',type:'meal',timer:15},
+  {id:'n17',time:'أذان المغرب',time_en:'Maghrib Time',icon:'🕌',name:'صلاة المغرب',name_en:'Maghrib Prayer',note:'',note_en:'',type:'prayer',timer:10,apiKey:'Maghrib'},
+  {id:'n18',time:'بعد المغرب',time_en:'After Maghrib',icon:'📋',name:'تخطيط الغد',name_en:'Plan Tomorrow',note:'٣ مهام أساسية',note_en:'3 key tasks',type:'work',timer:15},
+  {id:'n19',time:'+١٥ د',time_en:'+15 min',icon:'📖',name:'مراجعة الحفظ',name_en:'Review Memorization',note:'صفحة اليوم + ما قبلها',note_en:"Today's page + previous",type:'quran',timer:20},
+  {id:'n20',time:'٨:٣٠ م',time_en:'8:30 PM',icon:'📵',name:'لا شاشات — ٣-٢-١',name_en:'No Screens — 3-2-1',note:'ساعة قبل النوم',note_en:'1 hour before sleep',type:'sleep',timer:0},
+  {id:'n21',time:'أذان العشاء',time_en:'Isha Time',icon:'🕌',name:'صلاة العشاء',name_en:'Isha Prayer',note:'',note_en:'',type:'prayer',timer:10,apiKey:'Isha'},
+  {id:'n22',time:'٩:٣٠ م',time_en:'9:30 PM',icon:'🌙',name:'النوم',name_en:'Sleep',note:'٦-٧ ساعات · آية الكرسي',note_en:'6-7 hours · Ayat Al-Kursi',type:'sleep',timer:0}
+]);
+ 
+var schedFast=[
+  {id:'f1',time:'٢:٤٠ ص',time_en:'2:40 AM',icon:'🍳',name:'السحور',name_en:'Suhoor',note:'بروتين + ماء كثير',note_en:'Protein + lots of water',type:'meal',timer:20},
+  {id:'f2',time:'٣:٠٠ ص',time_en:'3:00 AM',icon:'🌙',name:'قيام الليل',name_en:'Night Prayer',note:'الدعاء مستجاب',note_en:'Duaa is answered',type:'sleep',timer:60},
+  {id:'f3',time:'أذان الفجر',time_en:'Fajr',icon:'⭐',name:'بداية الصيام',name_en:'Start of Fast',note:'نية الصيام',note_en:'Intention to fast',type:'fast',timer:0,apiKey:'Fajr'},
+  {id:'f4',time:'بعد الفجر',time_en:'After Fajr',icon:'📖',name:'حفظ القرآن + أذكار',name_en:'Quran + Adhkar',note:'',note_en:'',type:'quran',timer:45},
+  {id:'f5',time:'+٢٠ د',time_en:'+20 min',icon:'🎯',name:'Deep Work',name_en:'Deep Work',note:'الطاقة عالية صباحاً مع الصيام',note_en:'Energy is high in the morning',type:'work',timer:90},
+  {id:'f6',time:'أذان الظهر',time_en:'Dhuhr',icon:'🕌',name:'صلاة الظهر',name_en:'Dhuhr Prayer',note:'',note_en:'',type:'prayer',timer:10,apiKey:'Dhuhr'},
+  {id:'f7',time:'١:٠٠ م',time_en:'1:00 PM',icon:'😴',name:'قيلولة',name_en:'Nap',note:'٣٠-٤٥ دقيقة',note_en:'30-45 min',type:'sleep',timer:35},
+  {id:'f8',time:'أذان العصر',time_en:'Asr',icon:'🕌',name:'صلاة العصر',name_en:'Asr Prayer',note:'',note_en:'',type:'prayer',timer:10,apiKey:'Asr'},
+  {id:'f9',time:'بعد العصر',time_en:'After Asr',icon:'📿',name:'أذكار المساء + دعاء',name_en:'Evening Adhkar + Duaa',note:'دعاء الصائم مستجاب',note_en:"Fasting person's Duaa is answered",type:'quran',timer:20},
+  {id:'f10',time:'٦:٠٠ م',time_en:'6:00 PM',icon:'📖',name:'تلاوة حتى الإفطار',name_en:'Recitation Until Iftar',note:'',note_en:'',type:'quran',timer:45},
+  {id:'f11',time:'أذان المغرب',time_en:'Maghrib',icon:'🍴',name:'الإفطار',name_en:'Iftar',note:'تمر وماء · لا تفرط',note_en:'Dates & water · moderation',type:'meal',timer:0,apiKey:'Maghrib'},
+  {id:'f12',time:'أذان العشاء',time_en:'Isha',icon:'🕌',name:'صلاة العشاء',name_en:'Isha Prayer',note:'',note_en:'',type:'prayer',timer:10,apiKey:'Isha'},
+  {id:'f13',time:'٩:٣٠ م',time_en:'9:30 PM',icon:'🌙',name:'النوم مبكراً',name_en:'Early Sleep',note:'ستستيقظ للسحور ٢:٤٠ ص',note_en:'Will wake for Suhoor 2:40 AM',type:'sleep',timer:0}
+];
+ 
+// ═══ HABITS DATA ═══
+var habitDefs=[
+  {id:'fajr',ico:'🕌',ar:'صلاة الفجر في وقتها',en:'Fajr Prayer on Time',
+    links:[{ar:'فضل صلاة الفجر',en:'Virtues of Fajr',url:'https://www.youtube.com/results?search_query=فضل+صلاة+الفجر'},
+           {ar:'كيف تستيقظ للفجر',en:'How to Wake Up for Fajr',url:'https://www.youtube.com/results?search_query=كيف+تستيقظ+لصلاة+الفجر'}]},
+  {id:'prayers',ico:'🕌',ar:'الصلوات الخمس في وقتها',en:'5 Prayers on Time',
+    links:[{ar:'أهمية الصلاة في وقتها',en:'Importance of Prayer',url:'https://www.youtube.com/results?search_query=أهمية+الصلاة+في+وقتها'}]},
+  {id:'quran',ico:'📖',ar:'حفظ صفحة قرآن',en:'Memorize 1 Quran Page',
+    links:[{ar:'أفضل طريقة لحفظ القرآن',en:'Best Quran Memorization Method',url:'https://www.youtube.com/results?search_query=أفضل+طريقة+حفظ+القرآن'},
+           {ar:'تقنيات الحفظ السريع',en:'Speed Memorization',url:'https://www.youtube.com/results?search_query=تقنيات+الحفظ+السريع+قرآن'}]},
+  {id:'adhkar',ico:'📿',ar:'أذكار الصباح والمساء',en:'Morning & Evening Adhkar',
+    links:[{ar:'أذكار الصباح والمساء كاملة',en:'Full Adhkar Audio',url:'https://www.youtube.com/results?search_query=أذكار+الصباح+والمساء+كاملة'}]},
+  {id:'sport',ico:'🏋️',ar:'ممارسة الرياضة',en:'Exercise / Workout',
+    links:[{ar:'تمارين يومية 30 دقيقة',en:'30-min Daily Workout',url:'https://www.youtube.com/results?search_query=تمارين+رياضية+يومية+30+دقيقة'},
+           {ar:'تمارين بدون معدات',en:'Home Workout No Equipment',url:'https://www.youtube.com/results?search_query=تمارين+بدون+معدات+في+البيت'}]},
+  {id:'read',ico:'📚',ar:'قراءة كتاب',en:'Read a Book',
+    links:[{ar:'كيف تطور عادة القراءة',en:'Build a Reading Habit',url:'https://www.youtube.com/results?search_query=كيف+تطور+عادة+القراءة'}]},
+  {id:'water',ico:'💧',ar:'شرب ٢ لتر ماء',en:'Drink 2L Water',
+    links:[{ar:'فوائد شرب الماء',en:'Benefits of Water',url:'https://www.youtube.com/results?search_query=فوائد+شرب+الماء+يومياً'}]},
+  {id:'sleep',ico:'😴',ar:'النوم قبل العشاء',en:'Sleep Before 10 PM',
+    links:[{ar:'فوائد النوم المبكر',en:'Benefits of Early Sleep',url:'https://www.youtube.com/results?search_query=فوائد+النوم+المبكر'}]},
+  {id:'plan',ico:'📋',ar:'تخطيط اليوم القادم',en:'Plan Tomorrow',
+    links:[{ar:'كيف تخطط يومك',en:'How to Plan Your Day',url:'https://www.youtube.com/results?search_query=كيف+تخطط+يومك+بشكل+فعال'}]}
+];
+ 
+// ═══ HELPERS ═══
+function toAr(s){return String(s).replace(/\d/g,function(d){return'٠١٢٣٤٥٦٧٨٩'[d];});}
+function numD(n){return lang==='ar'?toAr(n):String(n);}
+function fmt12(tm){
+  if(!tm)return'—';
+  var p=tm.split(':'),h=parseInt(p[0]),m=parseInt(p[1]);
+  var ap=h<12?(lang==='ar'?'ص':'AM'):(lang==='ar'?'م':'PM');
+  return(lang==='ar'?toAr(h%12||12)+':'+toAr(String(m).padStart(2,'0')):String(h%12||12)+':'+String(m).padStart(2,'0'))+' '+ap;
+}
+function addM(tm,n){var p=tm.split(':'),h=parseInt(p[0]),m=parseInt(p[1]),tot=h*60+m+n;return Math.floor(tot/60)%24+':'+String(tot%60).padStart(2,'0');}
+function isPassed(tm){var n=new Date(),p=tm.split(':');return n.getHours()*60+n.getMinutes()>parseInt(p[0])*60+parseInt(p[1]);}
+function setText(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+function toast(msg,dur){dur=dur||2400;var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(function(){el.classList.remove('show');},dur);}
+var DAY_AR=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+var DAY_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var HIJRI=['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+ 
+// ═══ AUDIO ═══
+function getAudio(){if(!_audioCtx)_audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(_audioCtx.state==='suspended')_audioCtx.resume();return _audioCtx;}
+document.addEventListener('click',function ia(){try{getAudio();}catch(e){}document.removeEventListener('click',ia,true);},true);
+function playDone(){
+  try{var ctx=getAudio();var notes=[523.25,659.25,783.99,1046.5,783.99,1046.5],times=[0,.18,.36,.54,.75,.9];
+  notes.forEach(function(freq,i){var osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(0,ctx.currentTime+times[i]);gain.gain.linearRampToValueAtTime(.35,ctx.currentTime+times[i]+.06);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+times[i]+.55);osc.start(ctx.currentTime+times[i]);osc.stop(ctx.currentTime+times[i]+.6);});}catch(e){}
+}
+function playTick(){try{var ctx=getAudio(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=880;osc.type='sine';gain.gain.setValueAtTime(.15,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.1);osc.start(ctx.currentTime);osc.stop(ctx.currentTime+.12);}catch(e){}}
+ 
+// ═══ SETTINGS ═══
+function toggleSettings(){var p=document.getElementById('settingsPanel');p.classList.toggle('show');if(p.classList.contains('show')){document.getElementById('cityInp').value=city;document.getElementById('countryInp').value=country;document.getElementById('methodSel').value=method;}}
+function saveSettings(){city=document.getElementById('cityInp').value.trim()||'Cairo';country=document.getElementById('countryInp').value.trim()||'Egypt';method=document.getElementById('methodSel').value;sv('city',city);sv('country',country);sv('method',method);toggleSettings();init();toast(lang==='ar'?'✅ تم الحفظ':'✅ Saved');}
+function useLocation(){var btn=document.getElementById('locBtn');btn.textContent='⏳...';if(!navigator.geolocation){toast('Geolocation not supported');return;}navigator.geolocation.getCurrentPosition(function(pos){var lat=pos.coords.latitude.toFixed(4),lng=pos.coords.longitude.toFixed(4);city=lat+','+lng;country='';sv('city',city);sv('country',country);btn.textContent=lang==='ar'?'📍 تحديد موقعي':'📍 Auto-detect';document.getElementById('cityInp').value='('+lat+','+lng+')';document.getElementById('countryInp').value='';toggleSettings();init();toast('📍 '+(lang==='ar'?'تم تحديد موقعك':'Location detected'));},function(){btn.textContent=lang==='ar'?'📍 تحديد موقعي':'📍 Auto-detect';toast(lang==='ar'?'⚠️ تعذر التحديد':'⚠️ Could not detect');});}
+ 
+// ═══ THEME ═══
+function applyTheme(){document.body.setAttribute('data-theme',theme);setText('themeBtn',theme==='dark'?'☀️':'🌙');}
+function toggleTheme(){theme=theme==='dark'?'light':'dark';sv('theme',theme);applyTheme();}
+ 
+// ═══ LANGUAGE ═══
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  setText('langBtn',lang==='ar'?'EN':'ع');
+  var isAr=lang==='ar';
+  setText('appTitle',isAr?'روتيني ✦':'My Routine ✦');
+  document.getElementById('heroH1').innerHTML=(isAr?'روتيني ':'My ')+'<em id="heroEm">'+(isAr?'المثالي':'Ideal Routine')+'</em>';
+  setText('liveLabel','Live — Aladhan API');
+  setText('stTitle',isAr?'⚙️ إعدادات أوقات الصلاة':'⚙️ Prayer Time Settings');
+  setText('lbl-city',isAr?'المدينة':'City');
+  setText('lbl-country',isAr?'الدولة':'Country');
+  setText('lbl-method',isAr?'طريقة الحساب':'Calculation Method');
+  setText('lbl-loc',isAr?'أو موقعي التلقائي':'Or auto-detect');
+  setText('locBtn',isAr?'📍 تحديد موقعي':'📍 Auto-detect location');
+  setText('saveStBtn',isAr?'💾 حفظ وتحديث':'💾 Save & Update');
+  setText('stNote',isAr?'* اتركها فارغة لاستخدام القاهرة':'* Leave empty to use Cairo');
+  setText('tb-normal',isAr?'📅 يوم عادي':'📅 Normal Day');
+  setText('tb-fast',isAr?'⭐ صيام':'⭐ Fasting');
+  setText('tb-timer',isAr?'⏱ التركيز':'⏱ Focus');
+  setText('tb-tasks',isAr?'✅ مهامي':'✅ Tasks');
+  setText('tb-habits',isAr?'🔥 عاداتي':'🔥 Habits');
+  setText('tb-ai',isAr?'🤖 مساعد AI':'🤖 AI Assistant');
+  setText('tb-week',isAr?'📆 الأسبوع':'📆 Week');
+  setText('tb-rules',isAr?'📋 قواعد':'📋 Rules');
+  setText('editSchedBtn',isAr?'✏️ تعديل الجدول':'✏️ Edit Schedule');
+  setText('timerLbl',isAr?'⏱ مؤقت التركيز':'⏱ Focus Timer');
+  setText('setCustomBtn',isAr?'تعيين':'Set');
+  setText('histLbl',isAr?'سجل اليوم':"Today's Sessions");
+  setText('noSessLbl',isAr?'لا توجد جلسات بعد':'No sessions yet');
+  setText('focusTotLbl',isAr?'إجمالي دقائق التركيز':'Total focus minutes today');
+  setText('noTasksLbl',isAr?'🎯 أضف أول مهمة':'🎯 Add your first task');
+  setText('fltAll',isAr?'الكل':'All');
+  setText('fltActive',isAr?'المعلقة':'Pending');
+  setText('fltDone',isAr?'المنجزة':'Done');
+  setText('qCounterLbl',isAr?'عداد حفظ القرآن':'Quran Memorization Counter');
+  setText('qLbl',isAr?'صفحة متبقية من ٦٠٤':'pages remaining out of 604');
+  setText('qPlusBtn',isAr?'+ صفحة':'+ Page');
+  setText('habitsLbl',isAr?'عاداتي اليومية':'My Daily Habits');
+  setText('qProgLbl',isAr?'📖 تتبع حفظ القرآن':'📖 Quran Memorization');
+  setText('qDaysL',isAr?'يوم للختم':'days to finish');
+  setText('qMonsL',isAr?'أشهر متبقية':'months remaining');
+  setText('fastSumLbl',isAr?'الصيام السنوي':'Annual Fasting');
+  setText('fMonLbl',isAr?'الإثنين والخميس':'Mon & Thu Fasting');
+  setText('fMonNote',isAr?'٥٢ × ٢ يوم':'52 × 2 days');
+  setText('fWhiteLbl',isAr?'الأيام البيض (١٣-١٤-١٥)':'White Days (13-14-15)');
+  setText('fWhiteNote',isAr?'١٢ × ٣ أيام':'12 × 3 Hijri days');
+  setText('s1l',isAr?'صفحة قرآن':'Quran pages');
+  setText('s2l',isAr?'🔥 عادات':'🔥 Habits');
+  setText('s3l',isAr?'مهام منجزة':'Tasks done');
+  setText('s4l',isAr?'دقائق تركيز':'Focus minutes');
+  setText('r321T',isAr?'قاعدة ٣-٢-١ قبل النوم:':'3-2-1 Rule Before Sleep:');
+  setText('r321D',isAr?'🚫 لا أكل ٣ ساعات · لا شرب كثير ٢ ساعة · لا شاشات ساعة':'🚫 No food 3hrs · No drinks 2hrs · No screens 1hr before sleep');
+  setText('conAlert',isAr?'💡 أول ٦٦ يوم هي الأصعب — بعدها يصبح الروتين تلقائياً.':'💡 The first 66 days are hardest — after that, the routine becomes automatic.');
+  setText('editMTitle',isAr?'✏️ تعديل الجدول':'✏️ Edit Schedule');
+  setText('addEvBtn',isAr?'+ إضافة حدث':'+ Add Event');
+  setText('saveSchedBtn',isAr?'💾 حفظ':'💾 Save');
+  setText('mLocal',isAr?'⚡ محلي — بدون إنترنت':'⚡ Local — Offline');
+  setText('mGroq','🦙 Groq AI — Free');
+  setText('mClaude','🤖 Claude AI');
+  setText('chatSend',isAr?'إرسال':'Send');
+  document.getElementById('chatInp').placeholder=isAr?'اسألني أي شيء...':'Ask me anything...';
+  var rules=isAr?[
+    {i:'📖',t:'صفحة قرآن يومياً',d:'الفجر للحفظ · المساء للمراجعة'},
+    {i:'🏋️',t:'رياضة ٣-٤ أيام',d:'الأحد-الثلاثاء-الأربعاء-السبت'},
+    {i:'📵',t:'لا شاشة قبل النوم',d:'ساعة كاملة — القرآن أو القراءة'},
+    {i:'💧',t:'الماء أولاً',d:'٢-٣ لتر يومياً'},
+    {i:'📋',t:'خطط لغدك الليلة',d:'١٥ دقيقة — ٣ مهام فقط'},
+    {i:'🎯',t:'Deep Work بلا انقطاع',d:'من الفجر للظهر = لا هاتف'},
+    {i:'😴',t:'القيلولة ٢٠-٣٠ دقيقة',d:'بعد الظهر'},
+    {i:'🤲',t:'الصلاة في أول وقتها',d:'هي محور اليوم'}
+  ]:[
+    {i:'📖',t:'1 Quran Page Daily',d:'Morning memorize · Evening review'},
+    {i:'🏋️',t:'Exercise 3-4 Days',d:'Sun-Tue-Wed-Sat · Rest on fasting days'},
+    {i:'📵',t:'No Screens Before Sleep',d:'1 full hour — Quran or book'},
+    {i:'💧',t:'Water First',d:'2-3 liters daily'},
+    {i:'📋',t:'Plan Tomorrow Tonight',d:'15 min — 3 tasks only'},
+    {i:'🎯',t:'Deep Work Uninterrupted',d:'Fajr to Dhuhr = no phone'},
+    {i:'😴',t:'Nap 20-30 Minutes',d:'After Dhuhr only'},
+    {i:'🤲',t:'Pray at Earliest Time',d:'Core of the day'}
+  ];
+  var rg=document.getElementById('rulesGrid');
+  if(rg)rg.innerHTML=rules.map(function(r){return'<div class="rc"><div class="rico">'+r.i+'</div><div><div class="rt">'+r.t+'</div><div class="rd">'+r.d+'</div></div></div>';}).join('');
+  if(!tRun)rCtrls(tSecs===tTotal?'idle':'pause');
+  if(!tLbl)setText('tName',isAr?'اختر مهمة أو ابدأ مباشرة':'Pick a task or start now');
+  rendNormal();rendFast();rendHabits();rendQuickBtns();rendMealHistory();
+}
+function toggleLang(){lang=lang==='ar'?'en':'ar';sv('lang',lang);applyLang();}
+ 
+// ═══ API (Prayer Times) ═══
+function init(){
+  var now=new Date();
+  var dd=String(now.getDate()).padStart(2,'0'),mm=String(now.getMonth()+1).padStart(2,'0'),yyyy=now.getFullYear();
+  var isLL=/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(city);
+  var url=isLL?'https://api.aladhan.com/v1/timings/'+dd+'-'+mm+'-'+yyyy+'?latitude='+city.split(',')[0]+'&longitude='+city.split(',')[1]+'&method='+method:'https://api.aladhan.com/v1/timingsByCity/'+dd+'-'+mm+'-'+yyyy+'?city='+encodeURIComponent(city)+'&country='+encodeURIComponent(country)+'&method='+method;
+  fetch(url).then(function(r){return r.json();}).then(function(data){
+    if(data.code!==200)throw new Error();
+    var T2=data.data.timings,h=data.data.date.hijri;
+    var hDay=parseInt(h.day),hMon=parseInt(h.month.number),hMN=HIJRI[hMon-1],hY=h.year;
+    var dow=now.getDay(),isMon=dow===1,isThu=dow===4;
+    var isW=(hDay===13||hDay===14||hDay===15),isFast=isMon||isThu||isW;
+    apiTimes=T2;
+    var lt=document.getElementById('locTag'),ln=document.getElementById('locName');
+    if(ln){ln.textContent=isLL?'GPS':city+(country?', '+country:'');lt.style.display='flex';}
+    var dN=lang==='ar'?DAY_AR[dow]:DAY_EN[dow];
+    document.getElementById('hDate').innerHTML='<strong>'+dN+' '+dd+'/'+mm+'/'+yyyy+'</strong> · '+toAr(hDay)+' '+hMN+' '+toAr(hY)+' هـ';
+    var dtw=hDay<13?13-hDay:hDay<=15?0:30-hDay+13;
+    var isAr=lang==='ar';
+    document.getElementById('chips').innerHTML=
+      (isFast?'<div class="chip c-fast">⭐ '+(isAr?'يوم صيام':'Fasting Day')+(isW?isAr?' (أيام بيض)':' (White Days)':isMon?isAr?' (الإثنين)':' (Mon)':isAr?' (الخميس)':' (Thu)')+'</div>':'<div class="chip c-norm">📅 '+(isAr?'يوم عادي':'Regular Day')+'</div>')+
+      '<div class="chip c-moon">🌕 '+toAr(hDay)+' '+hMN+(isW?isAr?' ✓ أبيض':' ✓ White':'')+'</div>'+
+      (isW?'<div class="chip c-hij">🌙 '+(isAr?'أنت في الأيام البيض':'In the White Days!')+'</div>':'<div class="chip c-hij">🌙 '+(isAr?'الأيام البيض بعد ':'White Days in ')+numD(dtw)+(isAr?' يوم':' days')+'</div>');
+    var ps=[{n:isAr?'الفجر':'Fajr',i:'🌙',k:'Fajr'},{n:isAr?'الظهر':'Dhuhr',i:'☀️',k:'Dhuhr'},{n:isAr?'العصر':'Asr',i:'🌤️',k:'Asr'},{n:isAr?'المغرب':'Maghrib',i:'🌅',k:'Maghrib'},{n:isAr?'العشاء':'Isha',i:'🌃',k:'Isha'}];
+    var nm=now.getHours()*60+now.getMinutes(),nxt=-1;
+    for(var i=0;i<ps.length;i++){var pp=T2[ps[i].k].split(':');if(parseInt(pp[0])*60+parseInt(pp[1])>nm){nxt=i;break;}}
+    document.getElementById('pbar').innerHTML=ps.map(function(p,i){return'<div class="pc '+(i===nxt?'nxt':isPassed(T2[p.k])?'done':'')+'"><div class="pi">'+p.i+'</div><div class="pn">'+p.n+'</div><div class="pt">'+fmt12(T2[p.k])+'</div></div>';}).join('');
+    var fa=document.getElementById('fastAlert');
+    fa.innerHTML=isFast?'<strong>⭐ '+(isAr?'يوم صيام':'Fasting Day')+(isW?isAr?' (الأيام البيض)':' (White Days)':'')+'</strong> '+(isAr?'الإفطار عند المغرب':'Iftar at Maghrib')+' '+fmt12(T2.Maghrib):'<strong>📅 '+(isAr?'اليوم ليس يوم صيام':'Not a fasting day')+'</strong>';
+    fa.className='alert '+(isFast?'a-i':'a-g');
+    document.getElementById('wkAlert').innerHTML='<strong>🌕 '+(isAr?'الأيام البيض':'White Days')+' — '+hMN+' '+toAr(hY)+' هـ</strong><br>'+(isAr?'١٣ و١٤ و١٥ ':'13, 14, 15 ')+hMN+' — '+(isW?'<strong>'+(isAr?'أنت فيها الآن':'You\'re in them now!')+'</strong>':(isAr?'بعد ':' in ')+numD(dtw)+(isAr?' يوم':' days'));
+    var wH='';
+    for(var d=0;d<7;d++){var it=d===dow,dNw=isAr?DAY_AR[d]:DAY_EN[d];var tgs=(d===1||d===4)?'<span class="dtag dt-f">⭐</span>':d===5?'<span class="dtag dt-j">🕌</span>':'<span class="dtag dt-g">🏋️</span>';if(it&&isW)tgs+='<span class="dtag"style="background:rgba(201,168,76,.2);color:var(--gold)">🌕</span>';tgs+='<span class="dtag dt-q">📖</span>';wH+='<div class="dc'+(it?' today':'')+'"><div class="dn">'+dNw+'</div>'+tgs+'</div>';}
+    document.getElementById('wk').innerHTML=wH;
+    rendNormal();rendFast();
+    document.getElementById('bar').style.opacity='0';
+    setTimeout(function(){var b=document.getElementById('bar');if(b)b.remove();},500);
+  }).catch(function(){
+    document.getElementById('bar').style.opacity='0';
+    document.getElementById('pbar').innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:1rem;font-size:.82rem">⚠️ '+(lang==='ar'?'تعذر تحميل أوقات الصلاة — اضغط ⚙️ لتغيير المدينة':'Could not load prayer times — tap ⚙️ to change city')+'</div>';
+    document.getElementById('chips').innerHTML='<div class="chip c-norm">⚠️ Error</div>';
+  });
+}
+init();setInterval(init,3600000);
+ 
+// ═══ SCHEDULE ═══
+function getEvTime(ev){if(ev.apiKey&&apiTimes[ev.apiKey]){var t2=apiTimes[ev.apiKey];if(ev.apiPlus)t2=addM(t2,ev.apiPlus);return fmt12(t2);}return lang==='ar'?ev.time:ev.time_en;}
+function rendSchedule(evs,cid){
+  var html='';
+  for(var i=0;i<evs.length;i++){
+    var ev=evs[i];
+    var nm=lang==='ar'?ev.name:ev.name_en,nt=lang==='ar'?ev.note:ev.note_en;
+    var tb=ev.timer>0?'<button class="tbtn" onclick="qt('+ev.timer+',\''+nm.substring(0,20).replace(/'/g,'').replace(/"/g,'')+'\')">⏱ '+numD(ev.timer)+(lang==='ar'?'د':'m')+'</button>':'';
+    html+='<div class="ev '+ev.type+'"><div class="et">'+getEvTime(ev)+'</div><div><div class="en">'+ev.icon+' '+nm+'</div>'+(nt?'<div class="enote">'+nt+'</div>':'')+'</div><div>'+tb+'</div></div>';
+  }
+  var c=document.getElementById(cid);if(c)c.innerHTML=html;
+}
+function rendNormal(){rendSchedule(schedNormal,'normal-schedule');}
+function rendFast(){rendSchedule(schedFast,'fast-schedule');}
+ 
+// ═══ EDIT MODAL ═══
+function openEditModal(){
+  var types=['prayer','quran','work','health','family','sleep','meal','fast'];
+  document.getElementById('editList').innerHTML=schedNormal.map(function(ev,idx){
+    var nm=lang==='ar'?ev.name:ev.name_en,nt=lang==='ar'?ev.note:ev.note_en,tm=lang==='ar'?ev.time:ev.time_en;
+    var tSel=types.map(function(tp){return'<option value="'+tp+'"'+(ev.type===tp?' selected':'')+'>'+tp+'</option>';}).join('');
+    return'<div class="ei"><div class="ei-row"><span class="ei-lbl">'+(lang==='ar'?'أيقونة':'Icon')+'</span><input class="ei-inp" style="max-width:55px" id="ico'+idx+'" value="'+ev.icon+'"><span class="ei-lbl">'+(lang==='ar'?'نوع':'Type')+'</span><select class="ei-sel" id="tp'+idx+'">'+tSel+'</select><button class="ei-del" onclick="delEv('+idx+')">'+(lang==='ar'?'حذف':'Delete')+'</button></div><div class="ei-row"><span class="ei-lbl">'+(lang==='ar'?'وقت':'Time')+'</span><input class="ei-inp" id="tm'+idx+'" value="'+tm+'"><span class="ei-lbl">'+(lang==='ar'?'تايمر':'Timer')+'</span><input class="ei-inp" style="max-width:50px" id="tmr'+idx+'" type="number" value="'+ev.timer+'"></div><div class="ei-row"><span class="ei-lbl">'+(lang==='ar'?'اسم':'Name')+'</span><input class="ei-inp" id="nm'+idx+'" value="'+nm+'"></div><div class="ei-row"><span class="ei-lbl">'+(lang==='ar'?'ملاحظة':'Note')+'</span><input class="ei-inp" id="nt'+idx+'" value="'+nt+'"></div></div>';
+  }).join('');
+  document.getElementById('editModal').classList.add('show');
+}
+function closeEditModal(){document.getElementById('editModal').classList.remove('show');}
+function delEv(idx){schedNormal.splice(idx,1);sv('schedNormal',schedNormal);openEditModal();}
+function addNewEvent(){schedNormal.push({id:'e'+Date.now(),time:'',time_en:'',icon:'📌',name:'حدث جديد',name_en:'New Event',note:'',note_en:'',type:'work',timer:30});sv('schedNormal',schedNormal);openEditModal();setTimeout(function(){var el=document.getElementById('editList');if(el)el.scrollTop=el.scrollHeight;},100);}
+function saveSchedule(){
+  for(var i=0;i<schedNormal.length;i++){
+    var ico=document.getElementById('ico'+i),tp=document.getElementById('tp'+i),tm=document.getElementById('tm'+i),nm=document.getElementById('nm'+i),nt=document.getElementById('nt'+i),tmr=document.getElementById('tmr'+i);
+    if(ico)schedNormal[i].icon=ico.value;
+    if(tp)schedNormal[i].type=tp.value;
+    if(tm){if(lang==='ar')schedNormal[i].time=tm.value;else schedNormal[i].time_en=tm.value;}
+    if(nm){if(lang==='ar')schedNormal[i].name=nm.value;else schedNormal[i].name_en=nm.value;}
+    if(nt){if(lang==='ar')schedNormal[i].note=nt.value;else schedNormal[i].note_en=nt.value;}
+    if(tmr)schedNormal[i].timer=parseInt(tmr.value)||0;
+  }
+  sv('schedNormal',schedNormal);closeEditModal();rendNormal();toast(lang==='ar'?'✅ تم حفظ الجدول':'✅ Schedule saved');
+}
+document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEditModal();});
+ 
+// ═══ TABS ═══
+function switchTab(name,btn){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});document.getElementById('tab-'+name).classList.add('on');btn.classList.add('on');}
+ 
+// ═══ TIMER ═══
+function updRing(){var pct=tSecs/tTotal,circ=427,fg=document.getElementById('rfg');fg.style.strokeDashoffset=String(circ*(1-pct));fg.style.stroke=pct>0.5?'var(--gold)':pct>0.2?'var(--orange)':'var(--rose)';var m=Math.floor(tSecs/60),s=tSecs%60;setText('rTime',(lang==='ar'?toAr(String(m).padStart(2,'0'))+':'+toAr(String(s).padStart(2,'0')):String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')));setText('rSub',tRun?(lang==='ar'?'جارٍ التركيز':'Focusing'):tSecs===tTotal?(lang==='ar'?'جاهز':'Ready'):(lang==='ar'?'متوقف':'Paused'));}
+function rCtrls(st){var el=document.getElementById('ctrls');if(!el)return;var isAr=lang==='ar';if(st==='idle')el.innerHTML='<button class="cbtn c-start" onclick="startT()">▶ '+(isAr?'ابدأ':'Start')+'</button><button class="cbtn c-reset" onclick="resetT()">↺ '+(isAr?'إعادة':'Reset')+'</button>';else if(st==='run')el.innerHTML='<button class="cbtn c-pause" onclick="pauseT()">⏸ '+(isAr?'إيقاف مؤقت':'Pause')+'</button><button class="cbtn c-stop" onclick="stopT()">⏹ '+(isAr?'إنهاء':'Stop')+'</button>';else el.innerHTML='<button class="cbtn c-start" onclick="startT()">▶ '+(isAr?'استئناف':'Resume')+'</button><button class="cbtn c-reset" onclick="resetT()">↺ '+(isAr?'إعادة':'Reset')+'</button><button class="cbtn c-stop" onclick="stopT()">⏹ '+(isAr?'إنهاء':'Stop')+'</button>';}
+function setP(m,btn){if(tRun)return;tSecs=m*60;tTotal=m*60;document.querySelectorAll('.pbtn').forEach(function(b){b.classList.remove('sel');});btn.classList.add('sel');updRing();}
+function setCustom(){var v=parseInt(document.getElementById('cMins').value);if(!v||v<1||v>240){toast(lang==='ar'?'أدخل قيمة ١-٢٤٠':'Enter 1-240');return;}tSecs=v*60;tTotal=v*60;document.querySelectorAll('.pbtn').forEach(function(b){b.classList.remove('sel');});updRing();}
+function startT(){if(tRun)return;tRun=true;rCtrls('run');tInt=setInterval(function(){if(tSecs<=0){clearInterval(tInt);finishT();return;}tSecs--;updRing();if(tSecs===60)toast(lang==='ar'?'دقيقة واحدة متبقية 💪':'One minute left! 💪',3000);if(tSecs===300)toast(lang==='ar'?'٥ دقائق متبقية':'5 min left',2500);},1000);updRing();}
+function pauseT(){clearInterval(tInt);tRun=false;rCtrls('pause');updRing();}
+function resetT(){clearInterval(tInt);tRun=false;tSecs=tTotal;tLbl='';setText('tName',lang==='ar'?'اختر مهمة أو ابدأ مباشرة':'Pick a task or start now');rCtrls('idle');updRing();}
+function stopT(){var done=tTotal-tSecs;clearInterval(tInt);tRun=false;if(done>30){var mins=Math.floor(done/60);totFocus+=mins;sessions.unshift({n:tLbl||(lang==='ar'?'جلسة تركيز':'Focus Session'),m:mins});rendHist();setText('focusTotal',numD(totFocus)+(lang==='ar'?' د':' m'));setText('focusStat',numD(totFocus));sv('focusToday',totFocus);sv('sessions',sessions);toast((lang==='ar'?'✅ أتممت ':'✅ ')+numD(mins)+(lang==='ar'?' دقيقة':' min'),2500);}tSecs=tTotal;tLbl='';setText('tName',lang==='ar'?'اختر مهمة أو ابدأ مباشرة':'Pick a task or start now');rCtrls('idle');updRing();}
+function finishT(){tRun=false;playDone();var mins=Math.floor(tTotal/60);totFocus+=mins;sessions.unshift({n:tLbl||(lang==='ar'?'جلسة تركيز':'Focus Session'),m:mins});rendHist();setText('focusTotal',numD(totFocus)+(lang==='ar'?' د':' m'));setText('focusStat',numD(totFocus));sv('focusToday',totFocus);sv('sessions',sessions);setText('rSub',lang==='ar'?'مكتمل! 🎉':'Done! 🎉');toast('🎉 '+(lang==='ar'?'أحسنت! أتممت ':'Finished! ')+numD(mins)+(lang==='ar'?' دقيقة':' min'),3500);tSecs=tTotal;tLbl='';setText('tName',lang==='ar'?'اختر مهمة':'Pick a task');rCtrls('idle');updRing();}
+function rendHist(){var el=document.getElementById('hist');if(!sessions.length){el.innerHTML='<div class="empty" id="noSessLbl">'+(lang==='ar'?'لا توجد جلسات بعد':'No sessions yet')+'</div>';return;}el.innerHTML=sessions.slice(0,8).map(function(s,i){return'<div class="hi"><span class="hin">'+(i===0?'🟢 ':'')+s.n+'</span><span class="hid">'+numD(s.m)+(lang==='ar'?' د':' m')+'</span></div>';}).join('');}
+function qt(mins,name){tSecs=mins*60;tTotal=mins*60;tLbl=name;setText('tName','⏱ '+name);document.querySelectorAll('.pbtn').forEach(function(b){b.classList.remove('sel');});updRing();var tb=document.querySelector('.tabs .tab:nth-child(3)');switchTab('timer',tb);toast((lang==='ar'?'تم تعيين ':'Set ')+numD(mins)+(lang==='ar'?' دقيقة لـ ':' min for ')+name);}
+updRing();rCtrls('idle');rendHist();
+ 
+// ═══ TASKS ═══
+var CICO={prayer:'🕌',work:'💻',quran:'📖',health:'🏋️',other:'📌'};
+var CNMS_AR={prayer:'صلاة',work:'عمل',quran:'قرآن',health:'صحة',other:'أخرى'};
+var CNMS_EN={prayer:'Prayer',work:'Work',quran:'Quran',health:'Health',other:'Other'};
+function getCN(c){return lang==='ar'?CNMS_AR[c]:CNMS_EN[c];}
+function addTask(){var inp=document.getElementById('tInput'),cat=document.getElementById('tCat').value,txt=inp.value.trim();if(!txt)return;var n=new Date(),h=n.getHours(),m=n.getMinutes(),ap=h<12?(lang==='ar'?'ص':'AM'):(lang==='ar'?'م':'PM'),h12=h%12||12;var ts=(lang==='ar'?toAr(h12)+':'+toAr(String(m).padStart(2,'0')):String(h12)+':'+String(m).padStart(2,'0'))+' '+ap;tasks.unshift({id:Date.now(),text:txt,cat:cat,done:false,time:ts});inp.value='';sv('tasks',tasks);rendTasks();updTS();toast(lang==='ar'?'✅ تمت الإضافة':'✅ Added');}
+function toggleTask(id){for(var i=0;i<tasks.length;i++){if(tasks[i].id===id){tasks[i].done=!tasks[i].done;if(tasks[i].done){toast(lang==='ar'?'🎉 أحسنت!':'🎉 Done!');playTick();}break;}}sv('tasks',tasks);rendTasks();updTS();}
+function deleteTask(id){tasks=tasks.filter(function(t){return t.id!==id;});sv('tasks',tasks);rendTasks();updTS();toast(lang==='ar'?'🗑 حذف':'🗑 Deleted');}
+function flt(f,btn){taskFlt=f;document.querySelectorAll('.flt').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');rendTasks();}
+function rendTasks(){var list=document.getElementById('taskList');var fil=tasks.filter(function(t){if(taskFlt==='all')return true;if(taskFlt==='active')return!t.done;if(taskFlt==='done')return t.done;return t.cat===taskFlt;});if(!fil.length){list.innerHTML='<div class="empty">'+(lang==='ar'?'لا توجد مهام في هذه الفئة':'No tasks in this category')+'</div>';return;}list.innerHTML=fil.map(function(t){return'<div class="ti'+(t.done?' done':'')+'"><div class="chk'+(t.done?' c':'')+'" onclick="toggleTask('+t.id+')">'+(t.done?'✓':'')+'</div><div class="ti-body"><div class="ti-txt">'+t.text+'</div><div class="ti-meta"><span class="ti-cat cat-'+t.cat+'">'+CICO[t.cat]+' '+getCN(t.cat)+'</span><span>'+t.time+'</span></div></div><div class="ti-acts"><button class="tia tmr" onclick="qt(25,\''+t.text.substring(0,18).replace(/[\'\"]/g,'')+'\')">⏱</button><button class="tia del" onclick="deleteTask('+t.id+')">✕</button></div></div>';}).join('');}
+function updTS(){var done=tasks.filter(function(t){return t.done;}).length,tot=tasks.length,pct=tot?Math.round(done/tot*100):0;document.getElementById('tsum').innerHTML='<span class="ts-d">'+numD(done)+'</span><span class="ts-t"> / '+numD(tot)+'</span><div class="ts-bar"><div class="ts-fill" style="width:'+pct+'%"></div></div><span class="ts-pct">'+numD(pct)+'%</span>';setText('doneStat',numD(done));}
+rendTasks();updTS();
+ 
+// ═══ HABITS ═══
+var openYTSet={};
+function rendHabits(){
+  habitDefs.forEach(function(h){var el=document.getElementById('yt-'+h.id);if(el&&el.classList.contains('open'))openYTSet[h.id]=true;else if(el)delete openYTSet[h.id];});
+  var cnt=0;
+  document.getElementById('habitsGrid').innerHTML=habitDefs.map(function(h){
+    var done=!!habitDone[h.id];if(done)cnt++;
+    var nm=lang==='ar'?h.ar:h.en;
+    var linksHtml='';
+    if(h.links&&h.links.length){
+      var ll=h.links.map(function(lk){return'<a class="yt-link" href="'+lk.url+'" target="_blank" rel="noopener"><span class="yt-ico">▶</span>'+(lang==='ar'?lk.ar:lk.en)+'</a>';}).join('');
+      linksHtml='<div class="yt-links'+(openYTSet[h.id]?' open':'')+'" id="yt-'+h.id+'"><div style="font-size:.67rem;color:var(--muted);font-weight:700;margin-bottom:.4rem;">'+(lang==='ar'?'📹 موارد مفيدة':'📹 Helpful Resources')+'</div>'+ll+'</div>';
+    }
+    return'<div class="hc'+(done?' done':'')+'" id="hc-'+h.id+'"><div class="hc-main" onclick="toggleHabit(\''+h.id+'\')"><div class="hc-ico">'+h.ico+'</div><div class="hc-body"><div class="hc-name">'+nm+'</div><div class="hc-str">'+(done?(lang==='ar'?'✓ أتممت اليوم':'✓ Done today'):(lang==='ar'?'لم يكتمل بعد':'Not done yet'))+'</div></div>'+(h.links&&h.links.length?'<button class="yt-toggle" onclick="event.stopPropagation();toggleYT(\''+h.id+'\')" id="ytbtn-'+h.id+'">📹 '+(lang==='ar'?'موارد':'Resources')+'</button>':'')+'<div class="hc-chk">'+(done?'✓':'')+'</div></div>'+linksHtml+'</div>';
+  }).join('');
+  setText('streakStat',numD(cnt));
+  qUpdate();
+}
+function toggleHabit(id){habitDone[id]=!habitDone[id];if(habitDone[id]){playTick();toast(lang==='ar'?'🎉 أحسنت!':'🎉 Well done!');}sv('habitDone',habitDone);rendHabits();}
+function toggleYT(id){
+  if(openYTSet[id])delete openYTSet[id];else openYTSet[id]=true;
+  var el=document.getElementById('yt-'+id);
+  if(el)el.classList.toggle('open');
+}
+rendHabits();
+ 
+// ═══ QURAN ═══
+function qUpdate(){var done=qTotal-qPages,pct=Math.round(done/qTotal*100);setText('qRemain',numD(qPages));var f=document.getElementById('qpFill');if(f)f.style.width=pct+'%';setText('qpNote',numD(pct)+'% '+(lang==='ar'?'مكتمل · ':'complete · ')+numD(qPages)+(lang==='ar'?' يوم للإتمام':' days to finish'));setText('qPagesStat',numD(qPages));setText('progCount',numD(qPages)+' / '+numD(qTotal));var pf=document.getElementById('progFill');if(pf)pf.style.width=pct+'%';setText('progNote',numD(pct)+'% '+(lang==='ar'?'مكتمل':'complete'));setText('qDays',numD(qPages));setText('qMons','~'+numD(Math.ceil(qPages/30)));}
+function qChange(n){qPages=Math.max(0,Math.min(qTotal,qPages-n));sv('qPages',qPages);qUpdate();if(n>0){playTick();toast(lang==='ar'?'📖 +صفحة! متبقي '+numD(qPages):'📖 +Page! '+qPages+' remaining');}}
+qUpdate();
+ 
+// ═══ MEAL HISTORY ═══
+function getRecentMeals(){var weekAgo=Date.now()-7*24*60*60*1000;return mealHistory.filter(function(m){return m.date>weekAgo;});}
+function saveMeal(name,type){var meal={name:name,type:type,date:Date.now()};mealHistory.push(meal);sv('mealHistory',mealHistory);rendMealHistory();}
+function rendMealHistory(){
+  var el=document.getElementById('mealHistDiv');if(!el)return;
+  var recent=getRecentMeals();
+  if(!recent.length){el.innerHTML='';return;}
+  var isAr=lang==='ar';
+  var chips=recent.slice(-10).reverse().map(function(m){return'<span class="meal-chip">'+m.type+': '+m.name+'</span>';}).join('');
+  el.innerHTML='<div class="meal-hist"><div class="meal-hist-title">'+(isAr?'🍽️ وجبات هذا الأسبوع (لن تتكرر):':'🍽️ This week\'s meals (won\'t repeat):')+' </div>'+chips+'</div>';
+}
+rendMealHistory();
+ 
+// ═══ AI CHATBOT — SEND MESSAGE (HYBRID: LOCAL / GROQ / CLAUDE) ═══
+function rendQuickBtns(){
+  var isAr=lang==='ar';
+  var btns=isAr?[
+    {l:'🥗 اقترح إفطاراً',m:'اقترح لي وجبة إفطار صحية لهذا الصباح ولم تتكرر هذا الأسبوع'},
+    {l:'🍽️ اقترح غداءً',m:'اقترح لي وجبة غداء صحية بعد الجيم لم تتكرر هذا الأسبوع'},
+    {l:'💡 نصيحة إنتاجية',m:'أعطني نصيحة إنتاجية واحدة عملية لزيادة تركيزي'},
+    {l:'📖 تقنية حفظ',m:'أعطني تقنية فعالة لحفظ صفحة القرآن اليوم'},
+    {l:'🔥 حفزني',m:'حفزني بكلمة أو آية أو حديث لإكمال يومي'},
+    {l:'😴 تحسين النوم',m:'كيف أحسن جودة نومي للاستيقاظ لصلاة الفجر؟'}
+  ]:[
+    {l:'🥗 Suggest Breakfast',m:'Suggest a healthy breakfast I haven\'t had this week'},
+    {l:'🍽️ Suggest Lunch',m:'Suggest a healthy post-gym lunch I haven\'t had this week'},
+    {l:'💡 Productivity Tip',m:'Give me one practical productivity tip for Deep Work focus'},
+    {l:'📖 Quran Tip',m:'Give me an effective technique for memorizing my Quran page today'},
+    {l:'🔥 Motivate Me',m:'Motivate me with a word, verse, or hadith to complete my day'},
+    {l:'😴 Sleep Tips',m:'How can I improve my sleep quality to wake up for Fajr?'}
+  ];
+  var el=document.getElementById('quickBtns');
+  if(el)el.innerHTML=btns.map(function(b){return'<button class="qk-btn" onclick="quickMsg(\''+b.m.replace(/'/g,"\\'")+'\')">' +b.l+'</button>';}).join('');
+}
+function quickMsg(msg){document.getElementById('chatInp').value=msg;sendMsg();}
+ 
+function appendMsg(role,text){
+  var msgs=document.getElementById('chatMsgs');
+  var div=document.createElement('div');
+  div.className='msg '+role;
+  var ico=role==='ai'?'🤖':'👤';
+  var processed=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  var mealMatch=text.match(/\[MEAL:([^:]+):(breakfast|lunch|suhoor|iftar)\]/i);
+  if(mealMatch){saveMeal(mealMatch[1].trim(),mealMatch[2].trim());processed=processed.replace(/\[MEAL:[^\]]+\]/g,'<br><span class="meal-chip">✓ '+(lang==='ar'?'تم حفظ الوجبة':'Meal saved for the week')+'</span>');}
+  div.innerHTML='<div class="msg-ico '+role+'">'+ico+'</div><div class="msg-bubble">'+processed+'</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){var msgs=document.getElementById('chatMsgs');var div=document.createElement('div');div.className='msg ai';div.id='typingInd';div.innerHTML='<div class="msg-ico ai">🤖</div><div class="msg-bubble"><div class="typing-ind"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
+function hideTyping(){var el=document.getElementById('typingInd');if(el)el.remove();}
+ 
+async function sendMsg(){
+  var inp=document.getElementById('chatInp'),send=document.getElementById('chatSend');
+  var msg=inp.value.trim();if(!msg||isSending)return;
+  isSending=true;send.disabled=true;
+  inp.value='';inp.style.height='auto';
+  appendMsg('user',msg);
+  showTyping();
+  var reply;
+  try{
+    if(aiMode==='local'){
+      await new Promise(function(r){setTimeout(r,500+Math.random()*400);});
+      reply=getLocalReply(msg);
+    } else if(aiMode==='groq'){
+      reply=await callGroq(msg);
+    } else {
+      // claude mode
+      reply=await callClaude(msg);
+    }
+  }catch(e){
+    reply=(lang==='ar'?'⚠️ حدث خطأ: ':'⚠️ Error: ')+e.message;
+  }
+  hideTyping();
+  appendMsg('ai',reply);
+  isSending=false;send.disabled=false;inp.focus();
+}
+ 
+// Auto-resize textarea
+document.getElementById('chatInp').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';});
+ 
+// ═══ INIT AI MODE UI ═══
+(function(){
+  if(groqKey)document.getElementById('groqKeyInp').value=groqKey;
+  if(claudeKey)document.getElementById('claudeKeyInp').value=claudeKey;
+  var modeBtn=document.getElementById(aiMode==='groq'?'mGroq':aiMode==='claude'?'mClaude':'mLocal');
+  if(modeBtn)setAIMode(aiMode,modeBtn);
+})();
+ 
+// ═══ APPLY ═══
+applyTheme();
+applyLang();
+ 
+// Welcome message
+setTimeout(function(){
+  var isAr=lang==='ar';
+  var modeLabels={local:isAr?'⚡ محلي (بدون إنترنت)':'⚡ Local (offline)',groq:'🦙 Groq AI',claude:'🤖 Claude AI'};
+  appendMsg('ai',isAr
+    ?'السلام عليكم ورحمة الله وبركاته 🌙\n\nمرحباً! أنا مساعدك الذكي.\n\n**اختر وضع المساعد أعلاه:**\n⚡ **محلي** — ردود فورية بدون إنترنت\n🦙 **Groq AI** — ذكاء اصطناعي مجاني (يحتاج مفتاح)\n🤖 **Claude AI** — أقوى استجابة (يحتاج مفتاح)\n\nالوضع الحالي: **'+modeLabels[aiMode]+'**\n\nاضغط على أي زر أعلاه أو اسألني مباشرة!'
+    :'Peace and blessings! 🌙\n\nWelcome to your AI assistant.\n\n**Choose your AI mode above:**\n⚡ **Local** — Instant offline responses\n🦙 **Groq AI** — Free AI (needs key)\n🤖 **Claude AI** — Most powerful (needs key)\n\nCurrent mode: **'+modeLabels[aiMode]+'**\n\nTap any button above or ask me directly!');
+},500);
+</script>
+</body>
+</html>
