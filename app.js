@@ -1,4 +1,58 @@
-basmati rice, spices'},
+// ═══════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════
+function sv(k,v){try{localStorage.setItem('rt3_'+k,JSON.stringify(v));}catch(e){}}
+function ld(k,d){try{var x=localStorage.getItem('rt3_'+k);return x!==null?JSON.parse(x):d;}catch(e){return d;}}
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+var lang=ld('lang','ar'), theme=ld('theme','dark');
+var city=ld('city','Cairo'), country=ld('country','Egypt'), method=ld('method','5');
+var qPages=ld('qPages',267), qTotal=604;
+var tasks=ld('tasks',[]), habitDone=ld('habitDone',{}), taskFlt='all';
+var totFocus=ld('focusToday',0), sessions=ld('sessions',[]);
+var tSecs=25*60, tTotal=25*60, tRun=false, tInt=null, tLbl='';
+var apiTimes={}, mealHistory=ld('mealHistory',[]);
+var _audioCtx=null, isSending=false;
+var aiMode=ld('aiMode','local');
+var groqKey=ld('groqKey','');
+var claudeKey=ld('claudeKey','');
+var groqHistory=[], claudeHistory=[];
+var aiCurDay=new Date().getDay();
+var openYTSet={};
+var usedIdx={};
+
+// ═══════════════════════════════════════════════════
+// 7-DAY MEAL PLAN (بدون تكرار)
+// ═══════════════════════════════════════════════════
+var DAY_AR=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+var DAY_EN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var FAST_DAYS=[1,4];
+
+var WEEK=[
+  {bf:{ar:'بيض مقلي بالطماطم والزيت',en:'Fried Eggs & Tomatoes',cal:320,pro:18,iar:'بيضتان، طماطم، زيت زيتون',ien:'2 eggs, tomato, olive oil'},
+   ln:{ar:'صدر دجاج مشوي + أرز بني + سلطة',en:'Grilled Chicken + Brown Rice',cal:520,pro:45,iar:'دجاج، أرز بني، خس، طماطم',ien:'Chicken, brown rice, lettuce'},
+   sk:{ar:'مكسرات مشكلة',en:'Mixed Nuts',cal:180,pro:6,iar:'لوز، جوز، كاجو',ien:'Almonds, walnuts, cashews'},
+   sh:{ar:'شوفان بالتمر والحليب',en:'Oatmeal with Dates',cal:450,pro:16,iar:'شوفان، تمر، حليب، عسل',ien:'Oats, dates, milk, honey'}},
+  {bf:{ar:'⭐ يوم صيام — السحور بدلاً من الإفطار',en:'⭐ Fasting Day — See Suhoor',cal:0,pro:0,iar:'انظر خانة السحور',ien:'See Suhoor card'},
+   ln:{ar:'شوربة عدس خفيفة',en:'Light Lentil Soup',cal:280,pro:14,iar:'عدس، بصل، ليمون، كمون',ien:'Lentils, onion, lemon, cumin'},
+   sk:{ar:'تمر وماء عند الإفطار',en:'Dates & Water at Iftar',cal:100,pro:2,iar:'٣ تمرات + ماء',ien:'3 dates + water'},
+   sh:{ar:'بيض مسلوق + خبز أسمر + لبن',en:'Boiled Eggs + Wheat Bread',cal:400,pro:22,iar:'بيضتان، خبز قمح، لبن طبيعي',ien:'2 eggs, wheat bread, yogurt'}},
+  {bf:{ar:'شوفان بالموز والعسل',en:'Banana Oatmeal with Honey',cal:380,pro:12,iar:'شوفان، موزة، عسل، حليب',ien:'Oats, banana, honey, milk'},
+   ln:{ar:'سمك مشوي + بطاطا مسلوقة',en:'Grilled Fish + Potatoes',cal:450,pro:38,iar:'سمك، بطاطا، ليمون',ien:'Fish, potatoes, lemon'},
+   sk:{ar:'تفاحة + زبدة فول سوداني',en:'Apple + Peanut Butter',cal:220,pro:7,iar:'تفاحة، ملعقتان زبدة فول سوداني',ien:'Apple, 2 tbsp peanut butter'},
+   sh:{ar:'فول مدمس بالزيت والليمون',en:'Fava Beans with Olive Oil',cal:320,pro:15,iar:'فول مدمس، زيت زيتون، ليمون',ien:'Fava beans, olive oil, lemon'}},
+  {bf:{ar:'لبنة + زعتر + زيت زيتون',en:'Labneh + Za\'atar + Olive Oil',cal:250,pro:10,iar:'لبنة، زيت زيتون، زعتر، خبز',ien:'Labneh, olive oil, za\'atar'},
+   ln:{ar:'مكرونة قمح كامل + دجاج',en:'Whole Wheat Pasta + Chicken',cal:560,pro:30,iar:'مكرونة قمح، دجاج، طماطم، ثوم',ien:'Whole wheat pasta, chicken, tomato'},
+   sk:{ar:'زبادي يوناني + عسل',en:'Greek Yogurt + Honey',cal:200,pro:14,iar:'زبادي يوناني، ملعقة عسل',ien:'Greek yogurt, 1 tsp honey'},
+   sh:{ar:'زبادي + بذور شيا + موز',en:'Yogurt + Chia Seeds + Banana',cal:350,pro:18,iar:'زبادي يوناني، بذور شيا، موز',ien:'Greek yogurt, chia seeds, banana'}},
+  {bf:{ar:'⭐ يوم صيام — السحور بدلاً من الإفطار',en:'⭐ Fasting Day — See Suhoor',cal:0,pro:0,iar:'انظر خانة السحور',ien:'See Suhoor card'},
+   ln:{ar:'شوربة خضار بالدجاج',en:'Chicken Vegetable Soup',cal:380,pro:25,iar:'دجاج، خضار مشكلة، شعيرية',ien:'Chicken, mixed vegetables'},
+   sk:{ar:'تمر + ماء + نعناع',en:'Dates + Water + Mint',cal:120,pro:2,iar:'٣ تمرات + ماء + نعناع',ien:'3 dates, water, fresh mint'},
+   sh:{ar:'عجة خضار + خبز أسمر',en:'Veggie Omelette + Wheat Bread',cal:370,pro:20,iar:'٣ بيضات، فلفل، بصل، خبز أسمر',ien:'3 eggs, peppers, onion, wheat bread'}},
+  {bf:{ar:'بيض مسلوق + أفوكادو',en:'Boiled Eggs + Avocado',cal:350,pro:20,iar:'بيضتان مسلوقتان، نصف أفوكادو',ien:'2 boiled eggs, half avocado'},
+   ln:{ar:'كبسة دجاج',en:'Chicken Kabsa',cal:580,pro:35,iar:'دجاج، أرز بسمتي، بهارات، طماطم',ien:'Chicken, basmati rice, spices'},
    sk:{ar:'موز + جوز',en:'Banana + Walnuts',cal:190,pro:5,iar:'موزة + ١٠ حبات جوز',ien:'1 banana + 10 walnuts'},
    sh:{ar:'توست + جبن أبيض + زيتون',en:'Toast + White Cheese + Olives',cal:310,pro:12,iar:'خبز أسمر، جبن أبيض، زيتون',ien:'Wheat bread, white cheese, olives'}},
   {bf:{ar:'يوغرت + عسل + مكسرات',en:'Yogurt + Honey + Nuts',cal:300,pro:15,iar:'يوغرت يوناني، عسل، لوز، جوز',ien:'Greek yogurt, honey, almonds'},
@@ -581,7 +635,7 @@ function init(){
     var lt=document.getElementById('locTag'),ln=document.getElementById('locName');
     if(ln){ln.textContent=isLL?'GPS':city+(country?', '+country:'');lt.style.display='flex';}
     var dN=lang==='ar'?DAY_AR[dow]:DAY_EN[dow];
-    document.getElementById('hDate').innerHTML='<strong>'+dN+' '+dd+'/'+mm+'/'+yyyy+'</strong> · '+toAr(hDay)+' '+hMN+' '+toAr(hY)+' هـ';
+    document.getElementById('hDate').innerHTML='<strong>'+dN+' '+dd+'/'+mm+'/'+yyyy+'</strong> · '+toAr(hDay)+' '+hMN+' هـ';
     var dtw=hDay<13?13-hDay:hDay<=15?0:30-hDay+13;
     var isAr=lang==='ar';
     document.getElementById('chips').innerHTML=
@@ -795,7 +849,6 @@ qUpdate();
 applyTheme();
 applyLang();
 
-// Welcome message
 setTimeout(function(){
   var isAr=lang==='ar';
   var modeLabels={local:isAr?'⚡ محلي (بدون إنترنت)':'⚡ Local (offline)',groq:'🦙 Groq AI (Llama 3.1)',claude:'🤖 Claude Sonnet'};
@@ -804,6 +857,3 @@ setTimeout(function(){
     :'Peace and blessings! 🌙\n\nWelcome to your AI assistant!\n\n**Choose your AI mode above:**\n⚡ **Local** — Instant offline responses, no key needed\n🦙 **Groq AI** — Free AI (get key from console.groq.com)\n🤖 **Claude AI** — Most powerful (get key from console.anthropic.com)\n\n**Current mode:** '+modeLabels[aiMode]+'\n\nThe weekly meal plan is ready in the cards above!\nTap any button or ask me directly. 🤲'
   );
 },500);
-</script>
-</body>
-</html>
