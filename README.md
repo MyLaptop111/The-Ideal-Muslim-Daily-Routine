@@ -5,7 +5,7 @@ Islamic productivity web app for managing daily routine and habits.
 ---
 
 ## 🌐 Live Demo
-https://mylaptop111.github.io/Daily-Routine/
+(https://mylaptop111.github.io/Routine/)
 
 ---
 
